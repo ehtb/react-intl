@@ -137,7 +137,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "jest --coverage --verbose",
-    "test:react": "npm run react:14 && jest && npm run react:15 && jest",
+    "test:react": "npm run react:14 && jest && npm run react:15 && jest && npm uninstall --save react-addons-test-utils",
     "test:all": "npm run lint && npm run test && npm run test:react",
     "test:watch": "jest --watch",
     "test:perf": "cross-env NODE_ENV=production babel-node test/perf",
