@@ -1,3 +1,9 @@
+# Changelog
+
+## v2.5.1
+### Fix
+* Remove `"react-addons-test-utils": "^0.14.8"`
+
 ## v2.5.0
 
 ### New

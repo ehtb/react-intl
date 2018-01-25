@@ -1,6 +1,6 @@
 {
   "name": "@freedombase/react-intl",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "description": "Internationalize React apps. This library provides React components and an API to format dates, numbers, and strings, including pluralization and handling translations.",
   "keywords": [
     "intl",
@@ -68,8 +68,7 @@
     "intl-format-cache": "^2.0.5",
     "intl-messageformat": "^2.1.0",
     "intl-relativeformat": "^2.1.0",
-    "invariant": "^2.1.1",
-    "react-addons-test-utils": "^0.14.8"
+    "invariant": "^2.1.1"
   },
   "peerDependencies": {
     "react": "^0.14.9 || ^15.0.0 || ^16.0.0",
@@ -138,7 +137,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "jest --coverage --verbose",
-    "test:react": "npm run react:14 && jest && npm run react:15 && jest",
+    "test:react": "npm run react:14 && jest && npm run react:15 && jest && npm uninstall --save react-addons-test-utils",
     "test:all": "npm run lint && npm run test && npm run test:react",
     "test:watch": "jest --watch",
     "test:perf": "cross-env NODE_ENV=production babel-node test/perf",
