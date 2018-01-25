@@ -11,7 +11,6 @@ import React, {Component} from 'react';
 import invariant from 'invariant';
 import {intlShape} from './types';
 import IntlProvider from './components/provider';
-import {invariantIntlContext} from './utils';
 import hoistStatics from 'hoist-non-react-statics';
 
 function getDisplayName(Component) {
