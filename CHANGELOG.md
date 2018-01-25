@@ -1,10 +1,17 @@
 # Changelog
 
-## v2.5.1
+## v2.6.0 - unreleased
+### New
+* [Copies statics from the Wrapped component to the Injected component](https://github.com/yahoo/react-intl/pull/1073) by @Sparragus
+
+### Fix
+* [Replace string ref in injectIntl HOC with functional one](https://github.com/yahoo/react-intl/pull/1040) by @Panya
+
+## v2.5.1 - 24.01.2018
 ### Fix
 * Remove `"react-addons-test-utils": "^0.14.8"`
 
-## v2.5.0
+## v2.5.0 - 24.01.2018
 
 ### New
 * [Add timeZone prop to IntlProvider](https://github.com/yahoo/react-intl/pull/893) by @jeremyyap
