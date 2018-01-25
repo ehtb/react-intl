@@ -1,4 +1,4 @@
-React Intl
+React Intl (Freedombase version)
 ==========
 
 Internationalize [React][] apps. This library provides React components and an API to format dates, numbers, and strings, including pluralization and handling translations.
@@ -93,18 +93,18 @@ This software is free to use under the Yahoo Inc. BSD license.
 See the [LICENSE file][] for license text and copyright information.
 
 
-[npm]: https://www.npmjs.org/package/react-intl
-[npm-badge]: https://img.shields.io/npm/v/react-intl.svg?style=flat-square
-[david]: https://david-dm.org/yahoo/react-intl
-[david-badge]: https://img.shields.io/david/yahoo/react-intl.svg?style=flat-square
-[travis]: https://travis-ci.org/yahoo/react-intl
-[travis-badge]: https://img.shields.io/travis/yahoo/react-intl/master.svg?style=flat-square
+[npm]: https://www.npmjs.com/package/@freedombase/react-intl
+[npm-badge]: https://img.shields.io/npm/v/@freedombase/react-intl.svg?style=flat-square
+[david]: https://david-dm.org/Freedombase/react-intl
+[david-badge]: https://img.shields.io/david/Freedombase/react-intl.svg?style=flat-square
+[travis]: https://travis-ci.org/Freedombase/react-intl
+[travis-badge]: https://img.shields.io/travis/Freedombase/react-intl/master.svg?style=flat-square
 [React]: http://facebook.github.io/react/
 [FormatJS]: http://formatjs.io/
 [FormatJS GitHub]: http://formatjs.io/github/
-[Documentation]: https://github.com/yahoo/react-intl/wiki
+[Documentation]: https://github.com/freedombase/react-intl/wiki
 [Getting Started]: https://github.com/yahoo/react-intl/wiki#getting-started
-[Examples]: https://github.com/yahoo/react-intl/tree/master/examples
+[Examples]: https://github.com/freedombase/react-intl/tree/master/examples
 [v1-docs]: http://formatjs.io/react/v1/
-[CONTRIBUTING]: https://github.com/yahoo/react-intl/blob/master/CONTRIBUTING.md
-[LICENSE file]: https://github.com/yahoo/react-intl/blob/master/LICENSE.md
+[CONTRIBUTING]: https://github.com/freedombase/react-intl/blob/master/CONTRIBUTING.md
+[LICENSE file]: https://github.com/freedombase/react-intl/blob/master/LICENSE.md
