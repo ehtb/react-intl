@@ -35,7 +35,7 @@ There are several [runnable examples][Examples] in this Git repo, but here's a H
 ```js
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import {IntlProvider, FormattedMessage} from 'react-intl';
+import {IntlProvider, FormattedMessage} from '@freedombase/react-intl';
 
 class App extends Component {
     constructor(props) {
