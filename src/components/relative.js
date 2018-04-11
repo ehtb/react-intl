@@ -133,6 +133,7 @@ export default class FormattedRelative extends Component {
     this.scheduleNextUpdate(this.props, this.state);
   }
 
+  // TODO for React 17 this needs to be updated
   componentWillReceiveProps({value: nextValue}) {
     // When the `props.value` date changes, `state.now` needs to be updated,
     // and the next update can be rescheduled.
@@ -145,7 +146,7 @@ export default class FormattedRelative extends Component {
     return shouldIntlComponentUpdate(this, ...next);
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  componentDidUpdate(nextProps, nextState) {
     this.scheduleNextUpdate(nextProps, nextState);
   }
 

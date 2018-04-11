@@ -3,9 +3,11 @@
 ## v2.6.0 - unreleased
 ### New
 * [Copies statics from the Wrapped component to the Injected component](https://github.com/yahoo/react-intl/pull/1073) by @Sparragus
+* [update `FormattedMessage` to accept an element as `tagName` prop](https://github.com/yahoo/react-intl/pull/1118) by @iDuuck
 
 ### Fix
 * [Replace string ref in injectIntl HOC with functional one](https://github.com/yahoo/react-intl/pull/1040) by @Panya
+* Initial update of lifecycles to adhere to [upcoming React changes](https://reactjs.org/blog/2018/03/27/update-on-async-rendering.html)
 
 ## v2.5.1 - 24.01.2018
 ### Fix

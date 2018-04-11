@@ -18,7 +18,7 @@ class Root extends Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         request.get('/translations', (err, res) => {
             this.setState({
                 translations: res.body,
