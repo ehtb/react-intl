@@ -445,9 +445,9 @@ describe('format API', () => {
             it('falls back and warns on invalid IntlRelativeFormat options', () => {
                 expect(formatRelative(0, {units: 'invalid'})).toBe(String(new Date(0)));
                 expect(consoleWarn.calls.length).toBe(1);
-                expect(consoleWarn.calls[0].arguments[0]).toBe(
-                    '[React Intl] Error formatting relative time.\nError: "invalid" is not a valid IntlRelativeFormat `units` value, it must be one of: "second", "minute", "hour", "day", "month", "year"'
-                );
+                expect(consoleWarn.calls[0].arguments[0].startsWith(
+                    '[React Intl] Error formatting relative time.\nError: "invalid" is not a valid IntlRelativeFormat `units` value, it must be one of'
+                )).toBeTruthy();
             });
 
             it('uses configured named formats', () => {
