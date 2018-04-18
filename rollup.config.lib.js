@@ -11,10 +11,9 @@ const copyright = `/*
 export default {
   input: p.resolve('src/index.js'),
   output: [
-    {file: 'lib/index.js', format: 'cjs'},
-    {file: 'lib/index.es.js', format: 'es'},
+    {file: 'lib/index.js', format: 'cjs', banner: copyright},
+    {file: 'lib/index.es.js', format: 'es', banner: copyright},
   ],
-  banner: copyright,
   external: [
     'intl-format-cache',
     'intl-messageformat',
@@ -22,6 +21,7 @@ export default {
     'invariant',
     'react',
     'prop-types',
+    'hoist-non-react-statics',
     p.resolve('locale-data/index.js'),
   ],
   plugins: [babel()],
