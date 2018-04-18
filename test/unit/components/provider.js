@@ -1,4 +1,3 @@
-import expect, {spyOn} from 'expect';
 import expectJSX from 'expect-jsx';
 import React from 'react';
 import {createRenderer} from '../../react-compat';
@@ -46,9 +45,9 @@ describe('<IntlProvider>', () => {
 
     beforeEach(() => {
         // checking for console `warn`s instead of `error` for React Native debug
-        consoleWarn        = spyOn(console, 'warn');
-        dateNow            = spyOn(Date, 'now').andReturn(now);
-        IntlProviderRender = spyOn(IntlProvider.prototype, 'render').andCallThrough();
+        consoleWarn        = jest.spyOn(console, 'warn');
+        dateNow            = jest.spyOn(Date, 'now').mockImplementation(() => now);
+        IntlProviderRender = jest.spyOn(IntlProvider.prototype, 'render');
 
         renderer = createRenderer();
 
@@ -66,13 +65,13 @@ describe('<IntlProvider>', () => {
             global.Intl = INTL;
         }
 
-        consoleWarn.restore();
-        dateNow.restore();
-        IntlProviderRender.restore();
+        consoleWarn.mockRestore();
+        dateNow.mockRestore();
+        IntlProviderRender.mockRestore();
     });
 
     it('has a `displayName`', () => {
-        expect(IntlProvider.displayName).toBeA('string');
+        expect(typeof IntlProvider.displayName).toBe('string');
     });
 
     // If global.Intl is immutable, then skip this test.
@@ -154,7 +153,7 @@ describe('<IntlProvider>', () => {
         const {intl} = renderer.getMountedInstance().getChildContext();
 
         INTL_SHAPE_PROP_NAMES.forEach((propName) => {
-            expect(intl[propName]).toNotBe(undefined, `Missing context.intl prop: ${propName}`);
+            expect(intl[propName]).not.toBe(undefined, `Missing context.intl prop: ${propName}`);
         });
     });
 
@@ -216,10 +215,10 @@ describe('<IntlProvider>', () => {
         renderer.render(el);
         const {intl} = renderer.getMountedInstance().getChildContext();
 
-        expect(intl.defaultLocale).toNotBe(undefined);
+        expect(intl.defaultLocale).not.toBe(undefined);
         expect(intl.defaultLocale).toBe('en');
-        expect(intl.messages).toNotBe(undefined);
-        expect(intl.messages).toBeAn('object');
+        expect(intl.messages).not.toBe(undefined);
+        expect(typeof intl.messages).toBe('object');
     });
 
     it('provides `context.intl` with format methods bound to intl config props', () => {
@@ -242,8 +241,8 @@ describe('<IntlProvider>', () => {
         const {intl} = renderer.getMountedInstance().getChildContext();
 
         INTL_FORMAT_PROP_NAMES.forEach((propName) => {
-            expect(intl[propName]).toExist(`Missing context.intl prop: ${propName}`);
-            expect(intl[propName]).toBeA('function');
+            expect(intl[propName]).toBeTruthy(`Missing context.intl prop: ${propName}`);
+            expect(typeof intl[propName]).toBe('function');
         });
 
         const date = new Date();
@@ -343,7 +342,7 @@ describe('<IntlProvider>', () => {
         expect(consoleWarn.calls.length).toBe(0);
 
         INTL_CONFIG_PROP_NAMES.forEach((propName) => {
-            expect(intl[propName]).toNotBe(props[propName]);
+            expect(intl[propName]).not.toBe(props[propName]);
         });
     });
 
@@ -473,7 +472,7 @@ describe('<IntlProvider>', () => {
         setTimeout(() => {
             const nowTwo = intl.now();
 
-            expect(nowTwo).toNotEqual(nowOne);
+            expect(nowTwo).not.toEqual(nowOne);
             expect(nowOne).toBe(initialNow);
             expect(nowTwo).toBe(now);
 

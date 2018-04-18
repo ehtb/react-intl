@@ -1,4 +1,3 @@
-import expect from 'expect';
 import expectJSX from 'expect-jsx';
 import React from 'react';
 import {createRenderer} from '../../react-compat';

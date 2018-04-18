@@ -1,5 +1,4 @@
 import * as p from 'path';
-import expect from 'expect';
 import {sync as globSync} from 'glob';
 
 describe('locale data', () => {
@@ -10,10 +9,10 @@ describe('locale data', () => {
         localeDataFiles.forEach((filename) => {
             const localeData = require(p.resolve(filename));
 
-            expect(localeData).toBeAn('array');
+            expect(typeof localeData).toBe('array');
             localeData.forEach((locale) => {
-                expect(locale).toBeAn('object');
-                expect(locale.locale).toExist();
+                expect(typeof locale).toBe('object');
+                expect(locale.locale).toBeTruthy();
             });
         });
     });

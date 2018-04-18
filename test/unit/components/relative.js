@@ -1,4 +1,3 @@
-import expect, {spyOn} from 'expect';
 import expectJSX from 'expect-jsx';
 import React from 'react';
 import {createRenderer} from '../../react-compat';
@@ -16,10 +15,10 @@ describe('<FormattedRelative>', () => {
     let setState;
 
     beforeEach(() => {
-        consoleWarn = spyOn(console, 'warn');
+        consoleWarn = jest.spyOn(console, 'warn');
         renderer     = createRenderer();
         intlProvider = new IntlProvider({locale: 'en'}, {});
-        setState     = spyOn(FormattedRelative.prototype, 'setState').andCallThrough();
+        setState     = jest.spyOn(FormattedRelative.prototype, 'setState');
 
         // TODO: Remove when this feature is released to react-addons-test-utils
         // https://github.com/facebook/react/pull/4918
@@ -31,12 +30,12 @@ describe('<FormattedRelative>', () => {
     });
 
     afterEach(() => {
-        consoleWarn.restore();
-        setState.restore();
+        consoleWarn.mockRestore();
+        setState.mockRestore();
     });
 
     it('has a `displayName`', () => {
-        expect(FormattedRelative.displayName).toBeA('string');
+        expect(typeof FormattedRelative.displayName).toBe('string');
     });
 
     it('throws when <IntlProvider> is missing from ancestry', () => {
@@ -64,7 +63,7 @@ describe('<FormattedRelative>', () => {
 
         // Should avoid update scheduling tight-loop.
         await sleep(10);
-        expect(setState.calls.length).toBe(1, '`setState()` called unexpectedly');
+        expect(setState.calls.length).toBe(1);
         renderer.unmount();
     });
 
@@ -99,7 +98,7 @@ describe('<FormattedRelative>', () => {
         renderer.render(<FormattedRelative value={1000} />, intlProvider.getChildContext());
         const renderedTwo = renderer.getRenderOutput();
 
-        expect(renderedOne).toNotBe(renderedTwo);
+        expect(renderedOne).not.toBe(renderedTwo);
     });
 
     it('should re-render when context changes', () => {
@@ -111,7 +110,7 @@ describe('<FormattedRelative>', () => {
         renderer.render(<FormattedRelative value={0} />, intlProvider.getChildContext());
         const renderedTwo = renderer.getRenderOutput();
 
-        expect(renderedOne).toNotBe(renderedTwo);
+        expect(renderedOne).not.toBe(renderedTwo);
     });
 
     it('accepts valid IntlRelativeFormat options as props', () => {
@@ -168,7 +167,7 @@ describe('<FormattedRelative>', () => {
         const date = 0;
         const now = 1000;
 
-        expect(now).toNotEqual(intl.now());
+        expect(now).not.toEqual(intl.now());
 
         const el = <FormattedRelative value={date} initialNow={now} />;
 
@@ -256,7 +255,7 @@ describe('<FormattedRelative>', () => {
         const now = 2000;
         const date = new Date(now - 1000).toString();
 
-        spyOn(intl, 'now').andReturn(now);
+        jest.spyOn(intl, 'now').mockImplementation(() => now);
 
         renderer.render(<FormattedRelative value={date} updateInterval={1} />, {intl});
 

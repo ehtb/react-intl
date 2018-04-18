@@ -1,4 +1,3 @@
-import expect from 'expect';
 import * as ReactIntl from '../../src/react-intl';
 import * as ReactIntlWL from '../../src/index';
 

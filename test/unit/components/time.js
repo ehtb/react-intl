@@ -1,4 +1,3 @@
-import expect, {spyOn} from 'expect';
 import expectJSX from 'expect-jsx';
 import React from 'react';
 import {createRenderer} from '../../react-compat';
@@ -13,17 +12,17 @@ describe('<FormattedTime>', () => {
     let intlProvider;
 
     beforeEach(() => {
-        consoleWarn = spyOn(console, 'warn');
+        consoleWarn = jest.spyOn(console, 'warn');
         renderer     = createRenderer();
         intlProvider = new IntlProvider({locale: 'en'}, {});
     });
 
     afterEach(() => {
-        consoleWarn.restore();
+        consoleWarn.mockRestore();
     });
 
     it('has a `displayName`', () => {
-        expect(FormattedTime.displayName).toBeA('string');
+        expect(typeof FormattedTime.displayName).toBe('string');
     });
 
     it('throws when <IntlProvider> is missing from ancestry', () => {
@@ -77,7 +76,7 @@ describe('<FormattedTime>', () => {
         renderer.render(<FormattedTime value={1} />, intlProvider.getChildContext());
         const renderedTwo = renderer.getRenderOutput();
 
-        expect(renderedOne).toNotBe(renderedTwo);
+        expect(renderedOne).not.toBe(renderedTwo);
     });
 
     it('should re-render when context changes', () => {
@@ -89,7 +88,7 @@ describe('<FormattedTime>', () => {
         renderer.render(<FormattedTime value={0} />, intlProvider.getChildContext());
         const renderedTwo = renderer.getRenderOutput();
 
-        expect(renderedOne).toNotBe(renderedTwo);
+        expect(renderedOne).not.toBe(renderedTwo);
     });
 
     it('accepts valid Intl.DateTimeFormat options as props', () => {

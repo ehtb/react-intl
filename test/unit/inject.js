@@ -1,4 +1,3 @@
-import expect from 'expect';
 import expectJSX from 'expect-jsx';
 import React from 'react';
 import {createRenderer} from '../react-compat';
@@ -81,7 +80,7 @@ describe('injectIntl()', () => {
                 const Injected = injectIntl(Wrapped, {withRef: true});
                 const instance = new Injected({}, intlProvider.getChildContext());
 
-                expect(() => instance.getWrappedInstance()).toNotThrow();
+                expect(() => instance.getWrappedInstance()).not.toThrow();
             });
         });
     });

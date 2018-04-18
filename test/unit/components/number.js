@@ -1,4 +1,3 @@
-import expect, {spyOn} from 'expect';
 import expectJSX from 'expect-jsx';
 import React from 'react';
 import {createRenderer} from '../../react-compat';
@@ -13,17 +12,17 @@ describe('<FormattedNumber>', () => {
     let intlProvider;
 
     beforeEach(() => {
-        consoleWarn = spyOn(console, 'warn');
+        consoleWarn = jest.spyOn(console, 'warn');
         renderer     = createRenderer();
         intlProvider = new IntlProvider({locale: 'en'}, {});
     });
 
     afterEach(() => {
-        consoleWarn.restore();
+        consoleWarn.mockRestore();
     });
 
     it('has a `displayName`', () => {
-        expect(FormattedNumber.displayName).toBeA('string');
+        expect(typeof FormattedNumber.displayName).toBe('string');
     });
 
     it('throws when <IntlProvider> is missing from ancestry', () => {
@@ -58,7 +57,7 @@ describe('<FormattedNumber>', () => {
         renderer.render(<FormattedNumber value={1000} />, intlProvider.getChildContext());
         const renderedTwo = renderer.getRenderOutput();
 
-        expect(renderedOne).toBe(renderedTwo);
+        expect(renderedOne).toEqual(renderedTwo);
     });
 
     it('should re-render when props change', () => {
@@ -68,7 +67,7 @@ describe('<FormattedNumber>', () => {
         renderer.render(<FormattedNumber value={2000} />, intlProvider.getChildContext());
         const renderedTwo = renderer.getRenderOutput();
 
-        expect(renderedOne).toNotBe(renderedTwo);
+        expect(renderedOne).not.toBe(renderedTwo);
     });
 
     it('should re-render when context changes', () => {
@@ -80,7 +79,7 @@ describe('<FormattedNumber>', () => {
         renderer.render(<FormattedNumber value={1000} />, intlProvider.getChildContext());
         const renderedTwo = renderer.getRenderOutput();
 
-        expect(renderedOne).toNotBe(renderedTwo);
+        expect(renderedOne).not.toBe(renderedTwo);
     });
 
     it('accepts valid Intl.NumberFormat options as props', () => {

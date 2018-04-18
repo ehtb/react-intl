@@ -1,4 +1,3 @@
-import expect, {createSpy, spyOn} from 'expect';
 import IntlMessageFormat from 'intl-messageformat';
 import IntlRelativeFormat from 'intl-relativeformat';
 import IntlPluralFormat from '../../src/plural';
@@ -14,7 +13,7 @@ describe('format API', () => {
     let state;
 
     beforeEach(() => {
-        consoleWarn = spyOn(console, 'warn');
+        consoleWarn = jest.spyOn(console, 'warn');
 
         config = {
             locale: 'en',
@@ -69,11 +68,11 @@ describe('format API', () => {
         };
 
         state = {
-            getDateTimeFormat: createSpy().andCall((...args) => new Intl.DateTimeFormat(...args)),
-            getNumberFormat  : createSpy().andCall((...args) => new Intl.NumberFormat(...args)),
-            getMessageFormat : createSpy().andCall((...args) => new IntlMessageFormat(...args)),
-            getRelativeFormat: createSpy().andCall((...args) => new IntlRelativeFormat(...args)),
-            getPluralFormat  : createSpy().andCall((...args) => new IntlPluralFormat(...args)),
+            getDateTimeFormat: jest.fn().mockImplementation((...args) => new Intl.DateTimeFormat(...args)),
+            getNumberFormat  : jest.fn().mockImplementation((...args) => new Intl.NumberFormat(...args)),
+            getMessageFormat : jest.fn().mockImplementation((...args) => new IntlMessageFormat(...args)),
+            getRelativeFormat: jest.fn().mockImplementation((...args) => new IntlRelativeFormat(...args)),
+            getPluralFormat  : jest.fn().mockImplementation((...args) => new IntlPluralFormat(...args)),
 
             now: () => 0,
         };
@@ -81,13 +80,13 @@ describe('format API', () => {
 
     afterEach(() => {
         process.env.NODE_ENV = NODE_ENV;
-        consoleWarn.restore();
+        consoleWarn.mockRestore();
     });
 
     describe('exports', () => {
         Object.keys(intlFormatPropTypes).forEach((name) => {
             it(`exports \`${name}\``, () => {
-                expect(f[name]).toBeA('function');
+                expect(typeof f[name]).toBe('function');
             });
         });
     });
@@ -156,7 +155,7 @@ describe('format API', () => {
             });
 
             it('accepts valid Intl.DateTimeFormat options', () => {
-                expect(() => formatDate(0, {year: 'numeric'})).toNotThrow();
+                expect(() => formatDate(0, {year: 'numeric'})).not.toThrow();
             });
 
             it('fallsback and warns on invalid Intl.DateTimeFormat options', () => {
@@ -288,7 +287,7 @@ describe('format API', () => {
             });
 
             it('accepts valid Intl.DateTimeFormat options', () => {
-                expect(() => formatTime(0, {hour: '2-digit'})).toNotThrow();
+                expect(() => formatTime(0, {hour: '2-digit'})).not.toThrow();
             });
 
             it('fallsback and warns on invalid Intl.DateTimeFormat options', () => {
@@ -427,7 +426,7 @@ describe('format API', () => {
         it('formats with the expected thresholds', () => {
             const timestamp = now - (1000 * 59);
             expect(IntlRelativeFormat.thresholds).toEqual(IRF_THRESHOLDS);
-            expect(formatRelative(timestamp)).toNotBe(rf.format(timestamp, {now}));
+            expect(formatRelative(timestamp)).not.toBe(rf.format(timestamp, {now}));
             expect(formatRelative(timestamp)).toBe('59 seconds ago');
             expect(IntlRelativeFormat.thresholds).toEqual(IRF_THRESHOLDS);
             expect(formatRelative(NaN)).toBe('Invalid Date');
@@ -440,7 +439,7 @@ describe('format API', () => {
             });
 
             it('accepts valid IntlRelativeFormat options', () => {
-                expect(() => formatRelative(0, {units: 'second'})).toNotThrow();
+                expect(() => formatRelative(0, {units: 'second'})).not.toThrow();
             });
 
             it('falls back and warns on invalid IntlRelativeFormat options', () => {
@@ -502,8 +501,8 @@ describe('format API', () => {
                 });
 
                 it('does not throw or warn when a non-finite value is provided', () => {
-                    expect(() => formatRelative(0, {now: NaN})).toNotThrow();
-                    expect(() => formatRelative(0, {now: ''})).toNotThrow();
+                    expect(() => formatRelative(0, {now: NaN})).not.toThrow();
+                    expect(() => formatRelative(0, {now: ''})).not.toThrow();
                     expect(consoleWarn.calls.length).toBe(0);
                 });
 
@@ -576,7 +575,7 @@ describe('format API', () => {
             });
 
             it('accepts valid Intl.NumberFormat options', () => {
-                expect(() => formatNumber(0, {style: 'percent'})).toNotThrow();
+                expect(() => formatNumber(0, {style: 'percent'})).not.toThrow();
             });
 
             it('fallsback and warns on invalid Intl.NumberFormat options', () => {
@@ -674,7 +673,7 @@ describe('format API', () => {
             });
 
             it('accepts valid IntlPluralFormat options', () => {
-                expect(() => formatPlural(22, {style: 'ordinal'})).toNotThrow();
+                expect(() => formatPlural(22, {style: 'ordinal'})).not.toThrow();
             });
 
             describe('ordinals', () => {
@@ -781,7 +780,7 @@ describe('format API', () => {
                 let id = 'missing';
                 let values = {name: 'Eric'};
 
-                expect(locale).toNotEqual(defaultLocale);
+                expect(locale).not.toEqual(defaultLocale);
 
                 expect(formatMessage({
                     id: id,

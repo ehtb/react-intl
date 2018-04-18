@@ -1,4 +1,3 @@
-import expect, {spyOn} from 'expect';
 import expectJSX from 'expect-jsx';
 import React from 'react';
 import {createRenderer} from '../../react-compat';
@@ -13,7 +12,7 @@ describe('<FormattedMessage>', () => {
     let intlProvider;
 
     beforeEach(() => {
-        consoleWarn = spyOn(console, 'warn');
+        consoleWarn = jest.spyOn(console, 'warn');
         renderer     = createRenderer();
         intlProvider = new IntlProvider({
             locale       : 'en',
@@ -22,11 +21,11 @@ describe('<FormattedMessage>', () => {
     });
 
     afterEach(() => {
-        consoleWarn.restore();
+        consoleWarn.mockRestore();
     });
 
     it('has a `displayName`', () => {
-        expect(FormattedMessage.displayName).toBeA('string');
+        expect(typeof FormattedMessage.displayName).toBe('string');
     });
 
     it('throws when <IntlProvider> is missing from ancestry', () => {
@@ -125,7 +124,7 @@ describe('<FormattedMessage>', () => {
         );
         const renderedTwo = renderer.getRenderOutput();
 
-        expect(renderedOne).toNotBe(renderedTwo);
+        expect(renderedOne).not.toBe(renderedTwo);
     });
 
     it('should re-render when context changes', () => {
@@ -143,7 +142,7 @@ describe('<FormattedMessage>', () => {
         );
         const renderedTwo = renderer.getRenderOutput();
 
-        expect(renderedOne).toNotBe(renderedTwo);
+        expect(renderedOne).not.toBe(renderedTwo);
     });
 
     it('accepts `values` prop', () => {
@@ -179,7 +178,7 @@ describe('<FormattedMessage>', () => {
         const renderedThree = renderer.getRenderOutput();
 
         expect(renderedOne).toBe(renderedTwo);
-        expect(renderedThree).toNotBe(renderedOne);
+        expect(renderedThree).not.toBe(renderedOne);
     });
 
     it('accepts string as `tagName` prop', () => {
@@ -250,7 +249,7 @@ describe('<FormattedMessage>', () => {
         renderer.render(el, {intl});
         const rendered = renderer.getRenderOutput();
 
-        expect(rendered.props.children).toBeAn('array');
+        expect(typeof rendered.props.children).toBe('array');
         expect(rendered).toEqualJSX(
             <span>Hello, <b>Eric</b>!</span>
         );
@@ -277,7 +276,7 @@ describe('<FormattedMessage>', () => {
         renderer.render(el, {intl});
         const rendered = renderer.getRenderOutput();
 
-        expect(rendered.props.children).toBeAn('array');
+        expect(typeof rendered.props.children).toBe('array');
         expect(rendered).toEqualJSX(
             <strong>Hello, <b>Prem</b>!</strong>
         );
