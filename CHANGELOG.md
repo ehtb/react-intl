@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.5.2
+### Fixes
+* Fix badly tagged release and track with upstream.
+
 ## v2.5.1
 ### Fix
 * Remove `"react-addons-test-utils": "^0.14.8"`
