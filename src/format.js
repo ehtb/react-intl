@@ -47,7 +47,7 @@ function getNamedFormat(formats, type, name) {
   }
 
   if (process.env.NODE_ENV !== 'production') {
-    console.error(`[React Intl] No ${type} format named: ${name}`);
+    console.warn(`[React Intl] No ${type} format named: ${name}`);
   }
 }
 
@@ -66,7 +66,7 @@ export function formatDate(config, state, value, options = {}) {
     return state.getDateTimeFormat(locale, filteredOptions).format(date);
   } catch (e) {
     if (process.env.NODE_ENV !== 'production') {
-      console.error(`[React Intl] Error formatting date.\n${e}`);
+      console.warn(`[React Intl] Error formatting date.\n${e}`);
     }
   }
 
@@ -97,7 +97,7 @@ export function formatTime(config, state, value, options = {}) {
     return state.getDateTimeFormat(locale, filteredOptions).format(date);
   } catch (e) {
     if (process.env.NODE_ENV !== 'production') {
-      console.error(`[React Intl] Error formatting time.\n${e}`);
+      console.warn(`[React Intl] Error formatting time.\n${e}`);
     }
   }
 
@@ -124,7 +124,7 @@ export function formatRelative(config, state, value, options = {}) {
     });
   } catch (e) {
     if (process.env.NODE_ENV !== 'production') {
-      console.error(`[React Intl] Error formatting relative time.\n${e}`);
+      console.warn(`[React Intl] Error formatting relative time.\n${e}`);
     }
   } finally {
     updateRelativeFormatThresholds(oldThresholds);
@@ -144,7 +144,7 @@ export function formatNumber(config, state, value, options = {}) {
     return state.getNumberFormat(locale, filteredOptions).format(value);
   } catch (e) {
     if (process.env.NODE_ENV !== 'production') {
-      console.error(`[React Intl] Error formatting number.\n${e}`);
+      console.warn(`[React Intl] Error formatting number.\n${e}`);
     }
   }
 
@@ -160,7 +160,7 @@ export function formatPlural(config, state, value, options = {}) {
     return state.getPluralFormat(locale, filteredOptions).format(value);
   } catch (e) {
     if (process.env.NODE_ENV !== 'production') {
-      console.error(`[React Intl] Error formatting plural.\n${e}`);
+      console.warn(`[React Intl] Error formatting plural.\n${e}`);
     }
   }
 
@@ -198,7 +198,7 @@ export function formatMessage(
       formattedMessage = formatter.format(values);
     } catch (e) {
       if (process.env.NODE_ENV !== 'production') {
-        console.error(
+        console.warn(
           `[React Intl] Error formatting message: "${id}" for locale: "${locale}"` +
             (defaultMessage ? ', using default message as fallback.' : '') +
             `\n${e}`
@@ -214,7 +214,7 @@ export function formatMessage(
         !defaultMessage ||
         (locale && locale.toLowerCase() !== defaultLocale.toLowerCase())
       ) {
-        console.error(
+        console.warn(
           `[React Intl] Missing message: "${id}" for locale: "${locale}"` +
             (defaultMessage ? ', using default message as fallback.' : '')
         );
@@ -233,7 +233,7 @@ export function formatMessage(
       formattedMessage = formatter.format(values);
     } catch (e) {
       if (process.env.NODE_ENV !== 'production') {
-        console.error(
+        console.warn(
           `[React Intl] Error formatting the default message for: "${id}"` +
             `\n${e}`
         );
@@ -243,7 +243,7 @@ export function formatMessage(
 
   if (!formattedMessage) {
     if (process.env.NODE_ENV !== 'production') {
-      console.error(
+      console.warn(
         `[React Intl] Cannot format message: "${id}", ` +
           `using message ${message || defaultMessage
             ? 'source'
