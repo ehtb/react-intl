@@ -14,6 +14,10 @@
 ### Changes
 * Updated dependencies
 
+## v2.5.2 - 19.04.2018
+### Fixes
+* Fix badly tagged release and track with upstream.
+
 ## v2.5.1 - 24.01.2018
 ### Fix
 * Remove `"react-addons-test-utils": "^0.14.8"`
