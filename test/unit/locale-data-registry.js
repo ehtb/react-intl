@@ -96,7 +96,7 @@ describe('locale data registry', () => {
         });
 
         it('accepts an array of locale data', () => {
-            expect(typeof allLocaleData).toBe('array');
+            expect(Array.isArray(allLocaleData)).toBe(true);
 
             const {locale} = allLocaleData[0];
             expect(registry.hasLocaleData(locale)).toBe(false);

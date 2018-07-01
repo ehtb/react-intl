@@ -445,7 +445,17 @@ describe('format API', () => {
 
             it('accepts valid IntlRelativeFormat options', () => {
                 expect(() => formatRelative(0, {units: 'second'})).toNotThrow();
+                expect(() => formatRelative(0, {units: 'minute'})).toNotThrow();
+                expect(() => formatRelative(0, {units: 'hour'})).toNotThrow();
+                expect(() => formatRelative(0, {units: 'day'})).toNotThrow();
+                expect(() => formatRelative(0, {units: 'month'})).toNotThrow();
+                expect(() => formatRelative(0, {units: 'year'})).toNotThrow();
                 expect(() => formatRelative(0, {units: 'second-short'})).toNotThrow();
+                expect(() => formatRelative(0, {units: 'minute-short'})).toNotThrow();
+                expect(() => formatRelative(0, {units: 'hour-short'})).toNotThrow();
+                expect(() => formatRelative(0, {units: 'day-short'})).toNotThrow();
+                expect(() => formatRelative(0, {units: 'month-short'})).toNotThrow();
+                expect(() => formatRelative(0, {units: 'year-short'})).toNotThrow();
             });
 
             it('falls back and warns on invalid IntlRelativeFormat options', () => {
@@ -691,6 +701,8 @@ describe('format API', () => {
                 });
             });
         });
+
+        // TODO production warning
     });
 
     describe('formatMessage()', () => {

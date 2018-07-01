@@ -168,7 +168,7 @@ export function formatPlural(config, state, value, options = {}) {
       console.warn(`[React Intl] Error formatting plural.\n${e}`);
     }
   }
-
+  // TODO: Is this really needed here?
   return 'other';
 }
 

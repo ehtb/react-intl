@@ -33,6 +33,8 @@ export default function injectIntl(WrappedComponent, options = {}) {
       super(props, context);
     }
 
+    _wrappedInstance = React.createRef ? new React.createRef() : null;
+
     getWrappedInstance() {
       invariant(
         withRef,
@@ -58,7 +60,7 @@ export default function injectIntl(WrappedComponent, options = {}) {
        <WrappedComponent
          {...this.props}
          {...{[intlPropName]: this.context.intl}}
-         ref={withRef ? (ref => this._wrappedInstance = ref) : null}
+         ref={withRef ? React.createRef ? this._wrappedInstance : (ref => this._wrappedInstance = ref) : null}
        />
       );
     }

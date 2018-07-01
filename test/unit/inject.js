@@ -86,7 +86,7 @@ describe('injectIntl()', () => {
     });
 
     it('copies statics from the Wrapped component to the Injected component', () => {
-        Wrapped.foo = 'bar'
+        Wrapped.foo = 'bar';
         const Injected = injectIntl(Wrapped);
 
         expect(Injected.foo).toBe(

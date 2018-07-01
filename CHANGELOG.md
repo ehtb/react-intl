@@ -4,6 +4,7 @@
 ### New
 * [Copies statics from the Wrapped component to the Injected component](https://github.com/yahoo/react-intl/pull/1073) by @Sparragus
 * [update `FormattedMessage` to accept an element as `tagName` prop](https://github.com/yahoo/react-intl/pull/1118) by @iDuuck
+* [Support Short Relative Formats](https://github.com/yahoo/react-intl/pull/1145) by @papasmile
 
 ### Fix
 * [Replace string ref in injectIntl HOC with functional one](https://github.com/yahoo/react-intl/pull/1040) by @Panya

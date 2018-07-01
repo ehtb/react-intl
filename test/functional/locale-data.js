@@ -9,7 +9,7 @@ describe('locale data', () => {
         localeDataFiles.forEach((filename) => {
             const localeData = require(p.resolve(filename));
 
-            expect(typeof localeData).toBe('array');
+            expect(Array.isArray(localeData)).toBe(true);
             localeData.forEach((locale) => {
                 expect(typeof locale).toBe('object');
                 expect(locale.locale).toBeTruthy();
