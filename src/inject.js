@@ -8,10 +8,10 @@
 // https://github.com/rackt/react-redux
 
 import React, {Component} from 'react';
+import hoistNonReactStatics from 'hoist-non-react-statics';
 import invariant from 'invariant';
 import {intlShape} from './types';
 import IntlProvider from './components/provider';
-import hoistStatics from 'hoist-non-react-statics';
 
 function getDisplayName(Component) {
   return Component.displayName || Component.name || 'Component';
@@ -66,5 +66,5 @@ export default function injectIntl(WrappedComponent, options = {}) {
     }
   }
 
-  return hoistStatics(InjectIntl, WrappedComponent);
+  return hoistNonReactStatics(InjectIntl, WrappedComponent);
 }
