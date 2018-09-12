@@ -1,5 +1,10 @@
 # Changelog
 
+## v3.0 - planned
+### Breaking changes
+* Drop support for React v0.14 & v15
+* React Strict mode compliant
+
 ## v2.6.0 - unreleased
 ### New
 * [Copies statics from the Wrapped component to the Injected component](https://github.com/yahoo/react-intl/pull/1073) by @Sparragus
