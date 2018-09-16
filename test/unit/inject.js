@@ -19,8 +19,9 @@ describe('injectIntl()', () => {
             intl: intlShape.isRequired,
         };
         Wrapped.someNonReactStatic = {
-          foo: true
+            foo: true
         };
+
         renderer     = createRenderer();
         intlProvider = new IntlProvider({locale: 'en'}, {});
     });
@@ -31,7 +32,7 @@ describe('injectIntl()', () => {
 
     it('hoists non-react statics',() => {
         expect(injectIntl(Wrapped).someNonReactStatic.foo).toBe(true)
-    });
+    })
 
     describe('displayName', () => {
         it('is descriptive by default', () => {
