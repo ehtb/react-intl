@@ -1,22 +1,9 @@
 # Changelog
 
-## v2.7.0
-### Fix
-* Produce a nice error if a ReactElement is passed to formatMessage() (#547)
-* 613 custom error handling (#880)
-
-
-## v2.6.0
-### Fix
-* Doesn't throw when FormattedMessage has defaultMessage #1171
-
-## v2.5.2
-## v3.0 - planned
+## v3.0.0 - planned
 ### Breaking changes
 * Drop support for React v0.14 & v15
-* React Strict mode compliant
 
-## v2.6.0 - unreleased
 ### New
 * [Copies statics from the Wrapped component to the Injected component](https://github.com/yahoo/react-intl/pull/1073) by @Sparragus
 * [update `FormattedMessage` to accept an element as `tagName` prop](https://github.com/yahoo/react-intl/pull/1118) by @iDuuck
@@ -30,6 +17,17 @@
 
 ### Changes
 * Updated dependencies
+
+## v2.7.0 - 2.10.2018
+### Fix
+* Produce a nice error if a ReactElement is passed to formatMessage() (#547)
+* 613 custom error handling (#880)
+
+
+## v2.6.0
+### Fix
+* Doesn't throw when FormattedMessage has defaultMessage #1171
+
 
 ## v2.5.2 - 19.04.2018
 ### Fixes
