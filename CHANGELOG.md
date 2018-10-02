@@ -1,5 +1,16 @@
 # Changelog
 
+## v2.7.0
+### Fix
+* Produce a nice error if a ReactElement is passed to formatMessage() (#547)
+* 613 custom error handling (#880)
+
+
+## v2.6.0
+### Fix
+* Doesn't throw when FormattedMessage has defaultMessage #1171
+
+## v2.5.2
 ## v3.0 - planned
 ### Breaking changes
 * Drop support for React v0.14 & v15
