@@ -8,17 +8,22 @@
 * [Copies statics from the Wrapped component to the Injected component](https://github.com/yahoo/react-intl/pull/1073) by @Sparragus
 * [update `FormattedMessage` to accept an element as `tagName` prop](https://github.com/yahoo/react-intl/pull/1118) by @iDuuck
 * [Support Short Relative Formats](https://github.com/yahoo/react-intl/pull/1145) by @papasmile
+* [Message flattening](https://github.com/yahoo/react-intl/pull/997) by @Jascha-Sundare - need to write tests
 
-## v2.7.1
+### Updated
+* Upgraded dependencies
+* Upgraded to Babel 7
+* Updated tests to the newest versions
+
+## v2.7.1 - 16.10.2018
 ### Fix
 * Fixes the ability to pass onError through IntlProvider (#1195)
 
-## v2.7.0
+## v2.7.0 - 2.10.2018
 ### Fix
 * [Replace string ref in injectIntl HOC with functional one](https://github.com/yahoo/react-intl/pull/1040) by @Panya
 * Initial update of lifecycles to adhere to [upcoming React changes](https://reactjs.org/blog/2018/03/27/update-on-async-rendering.html)
 * [Default locale error instead of warning in React Native app](https://github.com/yahoo/react-intl/pull/1121) by @naffiq
-* Fix build issues
 
 ### Changes
 * Updated dependencies
