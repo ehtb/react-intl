@@ -1,10 +1,13 @@
 # Changelog
 
+## v2.7.1
+### Fix
+* Fixes the ability to pass onError through IntlProvider (#1195)
+
 ## v2.7.0
 ### Fix
 * Produce a nice error if a ReactElement is passed to formatMessage() (#547)
 * 613 custom error handling (#880)
-
 
 ## v2.6.0
 ### Fix
