@@ -3,8 +3,8 @@ import * as p from 'path';
 import {sync as mkdirpSync} from 'mkdirp';
 import extractCLDRData from 'formatjs-extract-cldr-data';
 import serialize from 'serialize-javascript';
-import {rollup} from 'rollup';
-import memory from 'rollup-plugin-memory';
+import { rollup } from 'rollup';
+import virtual from 'rollup-plugin-virtual';
 import { uglify } from 'rollup-plugin-uglify';
 
 const DEFAULT_LOCALE = 'en';
@@ -36,9 +36,9 @@ function writeUMDFile(filename, module) {
   return rollup({
     input: filename,
     plugins: [
-      memory({
+      virtual({
         path: filename,
-        contents: module,
+        [filename]: module
       }),
       uglify(),
     ],
@@ -75,8 +75,10 @@ writeFile(`src/${DEFAULT_LOCALE}.js`, defaultData);
 const allData = createDataModule([...cldrDataByLocale.values()]);
 writeUMDFile('locale-data/index.js', allData);
 
+let promiseChain = Promise.resolve();
 cldrDataByLang.forEach((cldrData, lang) => {
-  writeUMDFile(`locale-data/${lang}.js`, createDataModule(cldrData));
+  promiseChain = promiseChain
+    .then(() => writeUMDFile(`locale-data/${lang}.js`, createDataModule(cldrData)));
 });
 
 process.on('unhandledRejection', reason => {
