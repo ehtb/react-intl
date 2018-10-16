@@ -9,6 +9,11 @@
 * [update `FormattedMessage` to accept an element as `tagName` prop](https://github.com/yahoo/react-intl/pull/1118) by @iDuuck
 * [Support Short Relative Formats](https://github.com/yahoo/react-intl/pull/1145) by @papasmile
 
+## v2.7.1
+### Fix
+* Fixes the ability to pass onError through IntlProvider (#1195)
+
+## v2.7.0
 ### Fix
 * [Replace string ref in injectIntl HOC with functional one](https://github.com/yahoo/react-intl/pull/1040) by @Panya
 * Initial update of lifecycles to adhere to [upcoming React changes](https://reactjs.org/blog/2018/03/27/update-on-async-rendering.html)
@@ -22,7 +27,6 @@
 ### Fix
 * Produce a nice error if a ReactElement is passed to formatMessage() (#547)
 * 613 custom error handling (#880)
-
 
 ## v2.6.0
 ### Fix
