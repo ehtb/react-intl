@@ -1,4 +1,4 @@
-import expect, {createSpy, spyOn} from 'expect';
+import expect, {createSpy} from 'expect';
 import React from 'react';
 import {mount} from 'enzyme';
 import {generateIntlContext, makeMockContext, shallowDeep} from '../testUtils';
@@ -9,11 +9,11 @@ const mockContext = makeMockContext(
 );
 
 describe('<FormattedPlural>', () => {
-    let consoleError;
+    let consoleWarn;
     let intl;
 
     beforeEach(() => {
-        consoleError = spyOn(console, 'error');
+        consoleWarn = jest.spyOn(console, 'warn');
         intl = generateIntlContext({
           locale: 'en'
         });

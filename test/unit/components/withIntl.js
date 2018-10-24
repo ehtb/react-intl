@@ -9,7 +9,7 @@ const mountWithProvider = (el) => mount(
   <IntlProvider locale='en'>
     { el }
   </IntlProvider>
-)
+);
 
 describe('withIntl()', () => {
     let Wrapped;
@@ -29,7 +29,7 @@ describe('withIntl()', () => {
 
     afterEach(() => {
       rendered && rendered.unmount();
-    })
+    });
 
     it('allows introspection access to the wrapped component', () => {
         expect(withIntl(Wrapped).WrappedComponent).toBe(Wrapped);
@@ -37,7 +37,7 @@ describe('withIntl()', () => {
 
     it('hoists non-react statics',() => {
         expect(withIntl(Wrapped).someNonReactStatic.foo).toBe(true)
-    })
+    });
 
     describe('displayName', () => {
         it('is descriptive by default', () => {
@@ -76,14 +76,14 @@ describe('withIntl()', () => {
         const Injected = withIntl(Wrapped);
         const props = {
           foo: 'bar'
-        }
+        };
 
         rendered = mountWithProvider(<Injected {...props} />);
         const wrappedComponent = rendered.find(Wrapped);
 
         Object.keys(props).forEach((key) => {
           expect(wrappedComponent.prop(key)).toBe(props[key]);
-        })
+        });
     });
 
     describe('options', () => {
@@ -124,7 +124,7 @@ describe('withIntl()', () => {
                 render () {
                   return null
                 }
-              }
+              };
 
               const Injected = withIntl(Wrapped, { withRef: true });
 

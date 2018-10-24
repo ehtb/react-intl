@@ -19,7 +19,7 @@
   "author": "Eric Ferraiuolo <edf@ericf.me>",
   "contributors": [
     "Caridy Patino <caridy@gmail.com>",
-    "Marces Engel <dev.dragonraider5@gmail.com>"
+    "Marces Engel <dev.dragonraider5@gmail.com>",
     "Jan Dvořák <storyteller@freedombase.net>"
   ],
   "license": "BSD-3-Clause",
@@ -73,7 +73,7 @@
     "intl-format-cache": "^2.1.0",
     "intl-messageformat": "^2.2.0",
     "intl-relativeformat": "^2.1.0",
-    "invariant": "^2.2.4"
+    "invariant": "^2.2.4",
     "react-display-name": "^0.2.4",
     "react-lifecycles-compat": "^3.0.4",
     "rollup-plugin-virtual": "^1.0.1"
@@ -105,8 +105,8 @@
     "browserify-shim": "^3.8.14",
     "cross-env": "^5.2.0",
     "eslint": "^5.7.0",
-    "enzyme": "^3.6.0",
-    "enzyme-adapter-react-16": "^1.5.0",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.6.0",
     "eslint-plugin-react": "^7.11.1",
     "expect": "^23.6.0",
     "expect-jsx": "^5.0.0",

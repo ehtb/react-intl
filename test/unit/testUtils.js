@@ -1,5 +1,5 @@
 import React from 'react'
-import {shallow} from 'enzyme';
+import { shallow } from 'enzyme';
 
 export const makeMockContext = (modulePath, exportName = 'default') => (intl = null) => {
   jest.resetModules();
@@ -10,11 +10,11 @@ export const makeMockContext = (modulePath, exportName = 'default') => (intl = n
       default: (WrappedComponent) => {
         return class extends React.Component {
           constructor (props) {
-            super(props)
+            super(props);
 
             this.state = {
               intl: false
-            }
+            };
           }
 
           mockContext (intl) {
@@ -36,10 +36,10 @@ export const makeMockContext = (modulePath, exportName = 'default') => (intl = n
         { intl: value }
       )
     })
-  )
+  );
 
   return require(modulePath)[exportName]
-}
+};
 
 export const shallowDeep = (componentInstance, depth, options) => {
   let rendered = shallow(componentInstance, options);
@@ -49,11 +49,11 @@ export const shallowDeep = (componentInstance, depth, options) => {
   }
 
   return rendered
-}
+};
 
 export class SpyComponent extends React.Component {
   constructor (props) {
-    super(props)
+    super(props);
 
     this._renders = 0;
   }
@@ -79,4 +79,4 @@ export const generateIntlContext = (intl) => {
     </IntlProvider>,
     2
   ).first().prop('value');
-}
+};

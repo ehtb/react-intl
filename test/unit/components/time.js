@@ -10,16 +10,19 @@ const mockContext = makeMockContext(
 
 describe('<FormattedTime>', () => {
     let consoleError;
+    let consoleWarn;
     let intl;
 
     beforeEach(() => {
         consoleError = spyOn(console, 'error');
+        consoleWarn = spyOn(console, 'warn');
         intl = generateIntlContext({
           locale: 'en'
         });
     });
 
     afterEach(() => {
+        consoleError.mockRestore();
         consoleWarn.mockRestore();
     });
 

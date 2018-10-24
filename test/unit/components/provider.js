@@ -20,11 +20,12 @@ const mockContext = makeMockContext(
 const getIntlContext = (el) => {
   const provider = shallowDeep(el, 2).first();
   return provider.prop('value');
-}
+};
 
 describe('<IntlProvider>', () => {
     let immutableIntl = false;
     try {
+        // eslint-disable-next-line no-self-assign
         global.Intl = global.Intl;
     } catch (e) {
         immutableIntl = true;
@@ -46,6 +47,7 @@ describe('<IntlProvider>', () => {
     const Child = () => null;
 
     let consoleWarn;
+    let consoleError;
     let dateNow;
 
     beforeEach(() => {

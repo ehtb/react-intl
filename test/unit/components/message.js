@@ -22,7 +22,7 @@ describe('<FormattedMessage>', () => {
     });
 
     afterEach(() => {
-        consoleWarn.mockRestore();
+        consoleError.mockRestore();
     });
 
     it('has a `displayName`', () => {

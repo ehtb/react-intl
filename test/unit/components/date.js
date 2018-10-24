@@ -20,7 +20,7 @@ describe('<FormattedDate>', () => {
     });
 
     afterEach(() => {
-        consoleWarn.mockRestore();
+        consoleError.mockRestore();
     });
 
     it('has a `displayName`', () => {

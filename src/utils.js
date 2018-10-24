@@ -10,9 +10,9 @@ file in the root directory of React's source tree.
 */
 
 import invariant from 'invariant';
-import {intlConfigPropTypes} from './types';
+// import {intlConfigPropTypes} from './types';
 
-const intlConfigPropNames = Object.keys(intlConfigPropTypes);
+// const intlConfigPropNames = Object.keys(intlConfigPropTypes);
 
 const ESCAPED_CHARS = {
   '&': '&amp;',

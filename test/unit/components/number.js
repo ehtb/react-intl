@@ -20,7 +20,7 @@ describe('<FormattedNumber>', () => {
     });
 
     afterEach(() => {
-        consoleWarn.mockRestore();
+        consoleError.mockRestore();
     });
 
     it('has a `displayName`', () => {

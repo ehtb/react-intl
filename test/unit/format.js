@@ -9,11 +9,13 @@ describe('format API', () => {
     const IRF_THRESHOLDS = {...IntlRelativeFormat.thresholds};
 
     let consoleWarn;
+    let consoleError;
     let config;
     let state;
 
     beforeEach(() => {
         consoleWarn = jest.spyOn(console, 'warn');
+        consoleError = jest.spyOn(console, 'error');
 
         config = {
             locale: 'en',
@@ -83,6 +85,7 @@ describe('format API', () => {
     afterEach(() => {
         process.env.NODE_ENV = NODE_ENV;
         consoleWarn.mockRestore();
+        consoleError.mockRestore();
     });
 
     describe('exports', () => {
