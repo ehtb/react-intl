@@ -1,23 +1,30 @@
 # Changelog
 
 ## v3.0.0 - planned
+### TODO
+* Write tests for #997 (Message flattening)
+
 ### Breaking changes
 * Drop support for React v0.14 & v15
+* Drop support for Node.js v6
 
 ### New
-* [Copies statics from the Wrapped component to the Injected component](https://github.com/yahoo/react-intl/pull/1073) by @Sparragus
 * [update `FormattedMessage` to accept an element as `tagName` prop](https://github.com/yahoo/react-intl/pull/1118) by @iDuuck
 * [Support Short Relative Formats](https://github.com/yahoo/react-intl/pull/1145) by @papasmile
-* [Message flattening](https://github.com/yahoo/react-intl/pull/997) by @Jascha-Sundare - need to write tests
+* [Message flattening](https://github.com/yahoo/react-intl/pull/997) by @Jascha-Sundare
 
 ### Updated
 * Upgraded dependencies
 * Upgraded to Babel 7
 * Updated tests to the newest versions
 
+## v2.7.2 - 24.10.2018
+### Fix
+* [Make react-intl react 16 compatible](https://github.com/yahoo/react-intl/pull/1201) by @ptomasroos
+
 ## v2.7.1 - 16.10.2018
 ### Fix
-* Fixes the ability to pass onError through IntlProvider (#1195)
+* [Fixes the ability to pass onError through IntlProvider](https://github.com/yahoo/react-intl/pull/1195)
 
 ## v2.7.0 - 2.10.2018
 ### Fix
