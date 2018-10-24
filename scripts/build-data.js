@@ -33,11 +33,11 @@ export default ${serialize(localeData)};
 function writeUMDFile(filename, module) {
   const lang = p.basename(filename, '.js');
 
+  console.log(lang)
   return rollup({
     input: filename,
     plugins: [
       virtual({
-        path: filename,
         [filename]: module
       }),
       uglify(),

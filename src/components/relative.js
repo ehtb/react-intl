@@ -6,6 +6,7 @@
 
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import withIntl from './withIntl';
 import {intlShape, relativeFormatPropTypes} from '../types';
 import {invariantIntlContext, shouldIntlComponentUpdate} from '../utils';
 
@@ -64,15 +65,12 @@ function isSameDate(a, b) {
   return isFinite(aTime) && isFinite(bTime) && aTime === bTime;
 }
 
-export default class FormattedRelative extends Component {
+class FormattedRelative extends Component {
   static displayName = 'FormattedRelative';
-
-  static contextTypes = {
-    intl: intlShape,
-  };
 
   static propTypes = {
     ...relativeFormatPropTypes,
+    intl: intlShape,
     value: PropTypes.any.isRequired,
     format: PropTypes.string,
     updateInterval: PropTypes.number,
@@ -84,13 +82,13 @@ export default class FormattedRelative extends Component {
     updateInterval: 1000 * 10,
   };
 
-  constructor(props, context) {
-    super(props, context);
-    invariantIntlContext(context);
+  constructor(props) {
+    super(props);
+    invariantIntlContext(props);
 
     let now = isFinite(props.initialNow)
       ? Number(props.initialNow)
-      : context.intl.now();
+      : props.intl.now();
 
     // `now` is stored as state so that `render()` remains a function of
     // props + state, instead of accessing `Date.now()` inside `render()`.
@@ -125,7 +123,7 @@ export default class FormattedRelative extends Component {
         : Math.max(updateInterval, unitRemainder);
 
     this._timer = setTimeout(() => {
-      this.setState({now: this.context.intl.now()});
+      this.setState({now: this.props.intl.now()});
     }, delay);
   }
 
@@ -138,7 +136,7 @@ export default class FormattedRelative extends Component {
     // When the `props.value` date changes, `state.now` needs to be updated,
     // and the next update can be rescheduled.
     if (!isSameDate(nextValue, this.props.value)) {
-      this.setState({now: this.context.intl.now()});
+      this.setState({now: this.props.intl.now()});
     }
   }
 
@@ -155,7 +153,7 @@ export default class FormattedRelative extends Component {
   }
 
   render() {
-    const {formatRelative, textComponent: Text} = this.context.intl;
+    const {formatRelative, textComponent: Text} = this.props.intl;
     const {value, children} = this.props;
 
     let formattedRelative = formatRelative(value, {
@@ -171,3 +169,7 @@ export default class FormattedRelative extends Component {
     return <time title={value.toLocaleString()} datetime={value}><Text>{formattedRelative}</Text></time>;
   }
 }
+
+export const BaseFormattedRelative = FormattedRelative
+
+export default withIntl(FormattedRelative)
