@@ -1,4 +1,3 @@
-import expect, {createSpy, spyOn} from 'expect';
 import React from 'react';
 import {mount} from 'enzyme';
 import {generateIntlContext, makeMockContext, shallowDeep} from '../testUtils';
@@ -9,11 +8,11 @@ const mockContext = makeMockContext(
 );
 
 const spySetState = () => {
-  return spyOn(
+  return jest.spyOn(
     require('../../../src/components/relative').BaseFormattedRelative.prototype,
     'setState'
   );
-}
+};
 
 describe('<FormattedRelative>', () => {
     const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
@@ -23,7 +22,7 @@ describe('<FormattedRelative>', () => {
     let setState;
 
     beforeEach(() => {
-        consoleError = spyOn(console, 'error');
+        consoleError = jest.spyOn(console, 'error');
         intl = generateIntlContext({
           locale: 'en'
         });
@@ -31,8 +30,8 @@ describe('<FormattedRelative>', () => {
     });
 
     afterEach(() => {
-        consoleError.restore();
-        setState && setState.restore();
+        consoleError.mockReset();
+        setState && setState.mockReset();
     });
 
     it('has a `displayName`', () => {
@@ -50,27 +49,27 @@ describe('<FormattedRelative>', () => {
         const FormattedRelative = mockContext(intl);
         setState = spySetState();
 
-        expect(setState.calls.length).toBe(0);
+        expect(setState.mock.calls.length).toBe(0);
         const date = Date.now();
 
         const withIntlContext = mount(
           <FormattedRelative value={date} />
         );
-        expect(consoleError.calls.length).toBe(0);
+        expect(consoleError.mock.calls.length).toBe(0);
 
         withIntlContext.setProps({
           ...withIntlContext.props(),
           value: NaN
         });
 
-        expect(consoleError.calls.length).toBe(1);
-        expect(consoleError.calls[0].arguments[0]).toContain(
+        expect(consoleError.mock.calls.length).toBe(1);
+        expect(consoleError.mock.calls[0].arguments[0]).toContain(
             '[React Intl] Error formatting relative time.\nRangeError'
         );
 
         // Should avoid update scheduling tight-loop.
         await sleep(10);
-        expect(setState.calls.length).toBe(1, '`setState()` called unexpectedly');
+        expect(setState.mock.calls.length).toBe(1, '`setState()` called unexpectedly');
 
         withIntlContext.unmount();
     });
@@ -93,7 +92,7 @@ describe('<FormattedRelative>', () => {
     it('should not re-render when props and context are the same', () => {
         const FormattedRelative = mockContext(intl);
 
-        const spy = createSpy().andReturn(null);
+        const spy = jest.fn().andReturn(null);
         const withIntlContext = mount(
           <FormattedRelative value={Date.now()}>
             { spy }
@@ -105,13 +104,13 @@ describe('<FormattedRelative>', () => {
         });
         withIntlContext.instance().mockContext(intl);
 
-        expect(spy.calls.length).toBe(1);
+        expect(spy.mock.calls.length).toBe(1);
     });
 
     it('should re-render when props change', () => {
         const FormattedRelative = mockContext(intl);
 
-        const spy = createSpy().andReturn(null);
+        const spy = jest.fn().andReturn(null);
         const withIntlContext = mount(
           <FormattedRelative value={Date.now()}>
             { spy }
@@ -123,13 +122,13 @@ describe('<FormattedRelative>', () => {
           value: withIntlContext.prop('value') + 1
         });
 
-        expect(spy.calls.length).toBe(2);
+        expect(spy.mock.calls.length).toBe(2);
     });
 
     it('should re-render when context changes', () => {
         const FormattedRelative = mockContext(intl);
 
-        const spy = createSpy().andReturn(null);
+        const spy = jest.fn().andReturn(null);
         const withIntlContext = mount(
           <FormattedRelative value={Date.now()}>
             { spy }
@@ -141,7 +140,7 @@ describe('<FormattedRelative>', () => {
         });
         withIntlContext.instance().mockContext(otherIntl);
 
-        expect(spy.calls.length).toBe(2);
+        expect(spy.mock.calls.length).toBe(2);
     });
 
     it('accepts valid IntlRelativeFormat options as props', () => {
@@ -169,7 +168,7 @@ describe('<FormattedRelative>', () => {
         );
 
         expect(rendered.text()).toBe(String(date));
-        expect(consoleError.calls.length).toBeGreaterThan(0);
+        expect(consoleError.mock.calls.length).toBeGreaterThan(0);
     });
 
     it('accepts `format` prop', () => {
@@ -219,7 +218,7 @@ describe('<FormattedRelative>', () => {
         const FormattedRelative = mockContext(intl);
         const date = new Date();
 
-        const spy = createSpy().andReturn(<b>Jest</b>);
+        const spy = jest.fn().andReturn(<b>Jest</b>);
         const rendered = shallowDeep(
           <FormattedRelative value={date}>
             { spy }
@@ -227,8 +226,8 @@ describe('<FormattedRelative>', () => {
           2
         );
 
-        expect(spy.calls.length).toBe(1);
-        expect(spy.calls[0].arguments).toEqual([
+        expect(spy.mock.calls.length).toBe(1);
+        expect(spy.mock.calls[0].arguments).toEqual([
           intl.formatRelative(date)
         ]);
 

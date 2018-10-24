@@ -21,7 +21,7 @@ describe('<FormattedMessage>', () => {
     });
 
     afterEach(() => {
-        consoleError.mockRestore();
+        consoleError.mockReset();
     });
 
     it('has a `displayName`', () => {
@@ -49,7 +49,7 @@ describe('<FormattedMessage>', () => {
         expect(rendered.type()).toBe('span');
         expect(rendered.text()).toBe('Hello');
 
-        expect(consoleError.calls.length).toBe(1);
+        expect(consoleError.mock.calls.length).toBe(1);
     });
 
     it('renders a formatted message in a <span>', () => {
@@ -82,7 +82,7 @@ describe('<FormattedMessage>', () => {
           2
         );
 
-        expect(consoleError.calls.length).toBe(0);
+        expect(consoleError.mock.calls.length).toBe(0);
     });
 
     it('should not cause a prop warning when description is a string', () => {
@@ -100,7 +100,7 @@ describe('<FormattedMessage>', () => {
           />
         );
 
-        expect(consoleError.calls.length).toBe(0);
+        expect(consoleError.mock.calls.length).toBe(0);
     });
 
     it('should not cause a prop warning when description is an object', () => {
@@ -121,7 +121,7 @@ describe('<FormattedMessage>', () => {
           />
         );
 
-        expect(consoleError.calls.length).toBe(0);
+        expect(consoleError.mock.calls.length).toBe(0);
     });
 
     it('accepts `values` prop', () => {

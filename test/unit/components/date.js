@@ -19,7 +19,7 @@ describe('<FormattedDate>', () => {
     });
 
     afterEach(() => {
-        consoleError.mockRestore();
+        consoleError.mockReset();
     });
 
     it('has a `displayName`', () => {
@@ -42,14 +42,14 @@ describe('<FormattedDate>', () => {
           2
         );
         expect(isFinite(value)).toBe(true);
-        expect(consoleError.calls.length).toBe(0);
+        expect(consoleError.mock.calls.length).toBe(0);
 
         shallowDeep(
           <FormattedDate />,
           2
         );
-        expect(consoleError.calls.length).toBe(1);
-        expect(consoleError.calls[0].arguments[0]).toContain(
+        expect(consoleError.mock.calls.length).toBe(1);
+        expect(consoleError.mock.calls[0].arguments[0]).toContain(
             '[React Intl] Error formatting date.\nRangeError'
         );
     });
@@ -148,7 +148,7 @@ describe('<FormattedDate>', () => {
         );
 
         expect(rendered.text()).toBe(String(date));
-        expect(consoleError.calls.length).toBeGreaterThan(0);
+        expect(consoleError.mock.calls.length).toBeGreaterThan(0);
     });
 
     it('accepts `format` prop', () => {

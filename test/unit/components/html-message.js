@@ -20,7 +20,7 @@ describe('<FormattedHTMLMessage>', () => {
     });
 
     afterEach(() => {
-        consoleError.mockRestore();
+        consoleError.mockReset();
     });
 
     it('has a `displayName`', () => {

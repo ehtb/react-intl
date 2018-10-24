@@ -19,7 +19,7 @@ describe('<FormattedPlural>', () => {
     });
 
     afterEach(() => {
-        consoleWarn.mockRestore();
+        consoleWarn.mockReset();
     });
 
     it('has a `displayName`', () => {

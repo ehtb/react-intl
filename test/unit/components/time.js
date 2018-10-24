@@ -21,8 +21,8 @@ describe('<FormattedTime>', () => {
     });
 
     afterEach(() => {
-        consoleError.mockRestore();
-        consoleWarn.mockRestore();
+        consoleError.mockReset();
+        consoleWarn.mockReset();
     });
 
     it('has a `displayName`', () => {
@@ -42,14 +42,14 @@ describe('<FormattedTime>', () => {
         const withIntlContext = mount(
           <FormattedTime value={0} />
         );
-        expect(consoleError.calls.length).toBe(0);
+        expect(consoleError.mock.calls.length).toBe(0);
 
         withIntlContext.setProps({
           ...withIntlContext.props(),
           value: undefined
         });
-        expect(consoleError.calls.length).toBe(1);
-        expect(consoleError.calls[0].arguments[0]).toContain(
+        expect(consoleError.mock.calls.length).toBe(1);
+        expect(consoleError.mock.calls[0].arguments[0]).toContain(
             '[React Intl] Error formatting time.\nRangeError'
         );
     });
@@ -147,7 +147,7 @@ describe('<FormattedTime>', () => {
         );
 
         expect(rendered.text()).toBe(String(date));
-        expect(consoleError.calls.length).toBeGreaterThan(0);
+        expect(consoleError.mock.calls.length).toBeGreaterThan(0);
     });
 
     it('accepts `format` prop', () => {

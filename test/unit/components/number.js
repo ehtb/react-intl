@@ -19,7 +19,7 @@ describe('<FormattedNumber>', () => {
     });
 
     afterEach(() => {
-        consoleError.mockRestore();
+        consoleError.mockReset();
     });
 
     it('has a `displayName`', () => {
@@ -136,7 +136,7 @@ describe('<FormattedNumber>', () => {
         );
 
         expect(rendered.text()).toBe('0');
-        expect(consoleError.calls.length).toBeGreaterThan(0);
+        expect(consoleError.mock.calls.length).toBeGreaterThan(0);
     });
 
     it('accepts `format` prop', () => {

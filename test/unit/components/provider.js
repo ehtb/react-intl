@@ -1,4 +1,3 @@
-import expect, {createSpy, spyOn} from 'expect';
 import React from 'react';
 import {mount} from 'enzyme';
 import {makeMockContext, shallowDeep, SpyComponent} from '../testUtils'
@@ -51,8 +50,8 @@ describe('<IntlProvider>', () => {
     let dateNow;
 
     beforeEach(() => {
-        consoleError       = spyOn(console, 'error');
-        dateNow            = spyOn(Date, 'now').andReturn(now);
+        consoleError       = jest.spyOn(console, 'error');
+        dateNow            = jest.spyOn(Date, 'now').andReturn(now);
     });
 
     afterEach(() => {
@@ -60,8 +59,8 @@ describe('<IntlProvider>', () => {
             global.Intl = INTL;
         }
 
-        consoleError.restore();
-        dateNow.restore();
+        consoleError.mockReset();
+        dateNow.mockReset();
     });
 
     it('has a `displayName`', () => {
@@ -107,8 +106,8 @@ describe('<IntlProvider>', () => {
         );
 
         shallowDeep(el, 2);
-        expect(consoleError.calls.length).toBe(1);
-        expect(consoleError.calls[0].arguments[0]).toContain(
+        expect(consoleError.mock.calls.length).toBe(1);
+        expect(consoleError.mock.calls[0].arguments[0]).toContain(
             '[React Intl] Missing locale data for locale: "undefined". Using default locale: "en" as fallback.'
         );
     });
@@ -124,8 +123,8 @@ describe('<IntlProvider>', () => {
         const {locale} = el.props;
 
         shallowDeep(el, 2);
-        expect(consoleError.calls.length).toBe(1);
-        expect(consoleError.calls[0].arguments[0]).toContain(
+        expect(consoleError.mock.calls.length).toBe(1);
+        expect(consoleError.mock.calls[0].arguments[0]).toContain(
             `[React Intl] Missing locale data for locale: "${locale}". Using default locale: "en" as fallback.`
         );
     });
@@ -298,7 +297,7 @@ describe('<IntlProvider>', () => {
 
         const intl = getIntlContext(el);
 
-        expect(consoleWarn.calls.length).toBe(0);
+        expect(consoleWarn.mock.calls.length).toBe(0);
 
         INTL_CONFIG_PROP_NAMES.forEach((propName) => {
             expect(intl[propName]).toBe(props[propName]);
@@ -306,7 +305,7 @@ describe('<IntlProvider>', () => {
     });
 
     it('shadows inherited intl config props from an <IntlProvider> ancestor', () => {
-        let IntlProvider = mockContext()
+        let IntlProvider = mockContext();
         const props = {
             locale  : 'en',
             timeZone  : 'Australia/Adelaide',
@@ -354,7 +353,7 @@ describe('<IntlProvider>', () => {
 
         const intl = getIntlContext(el);
 
-        expect(consoleWarn.calls.length).toBe(0);
+        expect(consoleWarn.mock.calls.length).toBe(0);
 
         INTL_CONFIG_PROP_NAMES.forEach((propName) => {
             expect(intl[propName]).not.toBe(props[propName]);
@@ -362,7 +361,7 @@ describe('<IntlProvider>', () => {
     });
 
     it('should not re-render when props and context are the same', () => {
-        let IntlProvider = mockContext()
+        let IntlProvider = mockContext();
         const parentContext = getIntlContext(
           <IntlProvider locale='en'>
             <Child />
@@ -385,7 +384,7 @@ describe('<IntlProvider>', () => {
     });
 
     it('should re-render when props change', () => {
-        let IntlProvider = mockContext()
+        let IntlProvider = mockContext();
         const parentContext = getIntlContext(
           <IntlProvider locale='en'>
             <Child />
@@ -393,7 +392,7 @@ describe('<IntlProvider>', () => {
         );
 
         IntlProvider = mockContext(parentContext);
-        const Child = createSpy().andReturn(null);
+        const Child = jest.fn().andReturn(null);
 
         const intlProvider = mount(
             <IntlProvider locale="en">
@@ -402,14 +401,14 @@ describe('<IntlProvider>', () => {
         );
         intlProvider.setProps({
           locale: 'en-US'
-        })
+        });
 
         const spy = intlProvider.find(SpyComponent).instance();
         expect(spy.getRenderCount()).toBe(2);
     });
 
     it('should re-render when context changes', () => {
-        let IntlProvider = mockContext()
+        let IntlProvider = mockContext();
         const initialParentContext = getIntlContext(
           <IntlProvider locale='en'>
             <Child />
@@ -422,7 +421,7 @@ describe('<IntlProvider>', () => {
         );
 
         IntlProvider = mockContext(initialParentContext);
-        const Child = createSpy().andReturn(null);
+        const Child = jest.fn().andReturn(null);
 
         const el = (
             <IntlProvider>

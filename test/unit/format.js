@@ -84,8 +84,8 @@ describe('format API', () => {
 
     afterEach(() => {
         process.env.NODE_ENV = NODE_ENV;
-        consoleWarn.mockRestore();
-        consoleError.mockRestore();
+        consoleWarn.mockReset();
+        consoleError.mockReset();
     });
 
     describe('exports', () => {
@@ -107,8 +107,8 @@ describe('format API', () => {
 
         it('fallsback and warns when no value is provided', () => {
             expect(formatDate()).toBe('Invalid Date');
-            expect(consoleWarn.calls.length).toBe(1);
-            expect(consoleWarn.calls[0].arguments[0]).toContain(
+            expect(consoleWarn.mock.calls.length).toBe(1);
+            expect(consoleWarn.mock.calls[0].arguments[0]).toContain(
                 '[React Intl] Error formatting date.\nRangeError'
             );
         });
@@ -116,7 +116,7 @@ describe('format API', () => {
         it('fallsback and warns when a non-finite value is provided', () => {
             expect(formatDate(NaN)).toBe('Invalid Date');
             expect(formatDate('')).toBe('Invalid Date');
-            expect(consoleWarn.calls.length).toBe(2);
+            expect(consoleWarn.mock.calls.length).toBe(2);
         });
 
         it('formats falsy finite values', () => {
@@ -165,8 +165,8 @@ describe('format API', () => {
 
             it('fallsback and warns on invalid Intl.DateTimeFormat options', () => {
                 expect(formatDate(0, {year: 'invalid'})).toBe(String(new Date(0)));
-                expect(consoleWarn.calls.length).toBe(1);
-                expect(consoleWarn.calls[0].arguments[0]).toContain(
+                expect(consoleWarn.mock.calls.length).toBe(1);
+                expect(consoleWarn.mock.calls[0].arguments[0]).toContain(
                     '[React Intl] Error formatting date.\nRangeError'
                 );
             });
@@ -202,8 +202,8 @@ describe('format API', () => {
                 df = new Intl.DateTimeFormat(config.locale);
 
                 expect(formatDate(date, {format})).toBe(df.format(date));
-                expect(consoleWarn.calls.length).toBe(1);
-                expect(consoleWarn.calls[0].arguments[0]).toBe(
+                expect(consoleWarn.mock.calls.length).toBe(1);
+                expect(consoleWarn.mock.calls[0].arguments[0]).toBe(
                     `[React Intl] No date format named: ${format}`
                 );
             });
@@ -235,8 +235,8 @@ describe('format API', () => {
 
         it('fallsback and warns when no value is provided', () => {
             expect(formatTime()).toBe('Invalid Date');
-            expect(consoleWarn.calls.length).toBe(1);
-            expect(consoleWarn.calls[0].arguments[0]).toContain(
+            expect(consoleWarn.mock.calls.length).toBe(1);
+            expect(consoleWarn.mock.calls[0].arguments[0]).toContain(
                 '[React Intl] Error formatting time.\nRangeError'
             );
         });
@@ -244,7 +244,7 @@ describe('format API', () => {
         it('fallsback and warns when a non-finite value is provided', () => {
             expect(formatTime(NaN)).toBe('Invalid Date');
             expect(formatTime('')).toBe('Invalid Date');
-            expect(consoleWarn.calls.length).toBe(2);
+            expect(consoleWarn.mock.calls.length).toBe(2);
         });
 
         it('formats falsy finite values', () => {
@@ -297,8 +297,8 @@ describe('format API', () => {
 
             it('fallsback and warns on invalid Intl.DateTimeFormat options', () => {
                 expect(formatTime(0, {hour: 'invalid'})).toBe(String(new Date(0)));
-                expect(consoleWarn.calls.length).toBe(1);
-                expect(consoleWarn.calls[0].arguments[0]).toContain(
+                expect(consoleWarn.mock.calls.length).toBe(1);
+                expect(consoleWarn.mock.calls[0].arguments[0]).toContain(
                     '[React Intl] Error formatting time.\nRangeError'
                 );
             });
@@ -332,8 +332,8 @@ describe('format API', () => {
                 const format = 'missing';
 
                 expect(formatTime(date, {format})).toBe(df.format(date));
-                expect(consoleWarn.calls.length).toBe(1);
-                expect(consoleWarn.calls[0].arguments[0]).toBe(
+                expect(consoleWarn.mock.calls.length).toBe(1);
+                expect(consoleWarn.mock.calls[0].arguments[0]).toBe(
                     `[React Intl] No time format named: ${format}`
                 );
             });
@@ -397,8 +397,8 @@ describe('format API', () => {
 
         it('fallsback and warns when no value is provided', () => {
             expect(formatRelative()).toBe('Invalid Date');
-            expect(consoleWarn.calls.length).toBe(1);
-            expect(consoleWarn.calls[0].arguments[0]).toContain(
+            expect(consoleWarn.mock.calls.length).toBe(1);
+            expect(consoleWarn.mock.calls[0].arguments[0]).toContain(
                 '[React Intl] Error formatting relative time.\nRangeError'
             );
         });
@@ -406,7 +406,7 @@ describe('format API', () => {
         it('fallsback and warns when a non-finite value is provided', () => {
             expect(formatRelative(NaN)).toBe('Invalid Date');
             expect(formatRelative('')).toBe('Invalid Date');
-            expect(consoleWarn.calls.length).toBe(2);
+            expect(consoleWarn.mock.calls.length).toBe(2);
         });
 
         it('formats falsy finite values', () => {
@@ -465,8 +465,8 @@ describe('format API', () => {
 
             it('falls back and warns on invalid IntlRelativeFormat options', () => {
                 expect(formatRelative(0, {units: 'invalid'})).toBe(String(new Date(0)));
-                expect(consoleWarn.calls.length).toBe(1);
-                expect(consoleWarn.calls[0].arguments[0].startsWith(
+                expect(consoleWarn.mock.calls.length).toBe(1);
+                expect(consoleWarn.mock.calls[0].arguments[0].startsWith(
                     '[React Intl] Error formatting relative time.\nError: "invalid" is not a valid IntlRelativeFormat `units` value, it must be one of'
                 )).toBeTruthy();
             });
@@ -502,8 +502,8 @@ describe('format API', () => {
                 rf = new IntlRelativeFormat(config.locale);
 
                 expect(formatRelative(date, {format})).toBe(rf.format(date, {now}));
-                expect(consoleWarn.calls.length).toBe(1);
-                expect(consoleWarn.calls[0].arguments[0]).toBe(
+                expect(consoleWarn.mock.calls.length).toBe(1);
+                expect(consoleWarn.mock.calls[0].arguments[0]).toBe(
                     `[React Intl] No relative format named: ${format}`
                 );
             });
@@ -524,7 +524,7 @@ describe('format API', () => {
                 it('does not throw or warn when a non-finite value is provided', () => {
                     expect(() => formatRelative(0, {now: NaN})).not.toThrow();
                     expect(() => formatRelative(0, {now: ''})).not.toThrow();
-                    expect(consoleWarn.calls.length).toBe(0);
+                    expect(consoleWarn.mock.calls.length).toBe(0);
                 });
 
                 it('formats falsy finite values', () => {
@@ -601,8 +601,8 @@ describe('format API', () => {
 
             it('fallsback and warns on invalid Intl.NumberFormat options', () => {
                 expect(formatNumber(0, {style: 'invalid'})).toBe(String(0));
-                expect(consoleWarn.calls.length).toBe(1);
-                expect(consoleWarn.calls[0].arguments[0]).toContain(
+                expect(consoleWarn.mock.calls.length).toBe(1);
+                expect(consoleWarn.mock.calls[0].arguments[0]).toContain(
                     '[React Intl] Error formatting number.\nRangeError'
                 );
             });
@@ -638,8 +638,8 @@ describe('format API', () => {
                 nf = new Intl.NumberFormat(config.locale);
 
                 expect(formatNumber(num, {format})).toBe(nf.format(num));
-                expect(consoleWarn.calls.length).toBe(1);
-                expect(consoleWarn.calls[0].arguments[0]).toBe(
+                expect(consoleWarn.mock.calls.length).toBe(1);
+                expect(consoleWarn.mock.calls[0].arguments[0]).toBe(
                     `[React Intl] No number format named: ${format}`
                 );
             });
@@ -810,8 +810,8 @@ describe('format API', () => {
                     defaultMessage: messages.with_arg,
                 }, values)).toBe(mf.format(values));
 
-                expect(consoleWarn.calls.length).toBe(1);
-                expect(consoleWarn.calls[0].arguments[0]).toContain(
+                expect(consoleWarn.mock.calls.length).toBe(1);
+                expect(consoleWarn.mock.calls[0].arguments[0]).toContain(
                     `[React Intl] Missing message: "${id}" for locale: "${locale}", using default message as fallback.`
                 );
             });
@@ -826,11 +826,11 @@ describe('format API', () => {
                     defaultMessage: messages.missing,
                 }, values)).toBe(id);
 
-                expect(consoleWarn.calls.length).toBe(2);
-                expect(consoleWarn.calls[0].arguments[0]).toContain(
+                expect(consoleWarn.mock.calls.length).toBe(2);
+                expect(consoleWarn.mock.calls[0].arguments[0]).toContain(
                     `[React Intl] Missing message: "${id}" for locale: "${locale}"`
                 );
-                expect(consoleWarn.calls[1].arguments[0]).toContain(
+                expect(consoleWarn.mock.calls[1].arguments[0]).toContain(
                     `[React Intl] Cannot format message: "${id}", using message id as fallback.`
                 );
             });
@@ -846,8 +846,8 @@ describe('format API', () => {
                     defaultMessage: messages.with_arg,
                 }, values)).toBe(mf.format(values));
 
-                expect(consoleWarn.calls.length).toBe(1);
-                expect(consoleWarn.calls[0].arguments[0]).toContain(
+                expect(consoleWarn.mock.calls.length).toBe(1);
+                expect(consoleWarn.mock.calls[0].arguments[0]).toContain(
                     `[React Intl] Error formatting message: "${id}" for locale: "${locale}", using default message as fallback.`
                 );
             });
@@ -863,8 +863,8 @@ describe('format API', () => {
                     defaultMessage: messages.with_arg,
                 }, values)).toBe(mf.format(values));
 
-                expect(consoleWarn.calls.length).toBe(1);
-                expect(consoleWarn.calls[0].arguments[0]).toContain(
+                expect(consoleWarn.mock.calls.length).toBe(1);
+                expect(consoleWarn.mock.calls[0].arguments[0]).toContain(
                     `[React Intl] Error formatting message: "${id}" for locale: "${locale}", using default message as fallback.`
                 );
             });
@@ -878,14 +878,14 @@ describe('format API', () => {
                     defaultMessage: messages.invalid,
                 })).toBe(messages[id]);
 
-                expect(consoleWarn.calls.length).toBe(3);
-                expect(consoleWarn.calls[0].arguments[0]).toContain(
+                expect(consoleWarn.mock.calls.length).toBe(3);
+                expect(consoleWarn.mock.calls[0].arguments[0]).toContain(
                     `[React Intl] Error formatting message: "${id}" for locale: "${locale}"`
                 );
-                expect(consoleWarn.calls[1].arguments[0]).toContain(
+                expect(consoleWarn.mock.calls[1].arguments[0]).toContain(
                     `[React Intl] Error formatting the default message for: "${id}"`
                 );
-                expect(consoleWarn.calls[2].arguments[0]).toContain(
+                expect(consoleWarn.mock.calls[2].arguments[0]).toContain(
                     `[React Intl] Cannot format message: "${id}", using message source as fallback.`
                 );
             });
@@ -899,11 +899,11 @@ describe('format API', () => {
                     defaultMessage: messages.missing,
                 })).toBe(messages[id]);
 
-                expect(consoleWarn.calls.length).toBe(2);
-                expect(consoleWarn.calls[0].arguments[0]).toContain(
+                expect(consoleWarn.mock.calls.length).toBe(2);
+                expect(consoleWarn.mock.calls[0].arguments[0]).toContain(
                     `[React Intl] Error formatting message: "${id}" for locale: "${locale}"`
                 );
-                expect(consoleWarn.calls[1].arguments[0]).toContain(
+                expect(consoleWarn.mock.calls[1].arguments[0]).toContain(
                     `[React Intl] Cannot format message: "${id}", using message source as fallback.`
                 );
             });
@@ -919,14 +919,14 @@ describe('format API', () => {
                     defaultMessage: messages.invalid,
                 })).toBe(messages.invalid);
 
-                expect(consoleWarn.calls.length).toBe(3);
-                expect(consoleWarn.calls[0].arguments[0]).toContain(
+                expect(consoleWarn.mock.calls.length).toBe(3);
+                expect(consoleWarn.mock.calls[0].arguments[0]).toContain(
                     `[React Intl] Missing message: "${id}" for locale: "${locale}", using default message as fallback.`
                 );
-                expect(consoleWarn.calls[1].arguments[0]).toContain(
+                expect(consoleWarn.mock.calls[1].arguments[0]).toContain(
                     `[React Intl] Error formatting the default message for: "${id}"`
                 );
-                expect(consoleWarn.calls[2].arguments[0]).toContain(
+                expect(consoleWarn.mock.calls[2].arguments[0]).toContain(
                     `[React Intl] Cannot format message: "${id}", using message source as fallback.`
                 );
             });
@@ -936,11 +936,11 @@ describe('format API', () => {
 
                 expect(formatMessage({id: id})).toBe(id);
 
-                expect(consoleWarn.calls.length).toBe(2);
-                expect(consoleWarn.calls[0].arguments[0]).toContain(
+                expect(consoleWarn.mock.calls.length).toBe(2);
+                expect(consoleWarn.mock.calls[0].arguments[0]).toContain(
                     `[React Intl] Missing message: "${id}" for locale: "${config.locale}"`
                 );
-                expect(consoleWarn.calls[1].arguments[0]).toContain(
+                expect(consoleWarn.mock.calls[1].arguments[0]).toContain(
                     `[React Intl] Cannot format message: "${id}", using message id as fallback.`
                 );
             });
@@ -954,11 +954,11 @@ describe('format API', () => {
                     defaultMessage: messages[id],
                 })).toBe(id);
 
-                expect(consoleWarn.calls.length).toBe(2);
-                expect(consoleWarn.calls[0].arguments[0]).toContain(
+                expect(consoleWarn.mock.calls.length).toBe(2);
+                expect(consoleWarn.mock.calls[0].arguments[0]).toContain(
                     `[React Intl] Missing message: "${id}" for locale: "${locale}"`
                 );
-                expect(consoleWarn.calls[1].arguments[0]).toContain(
+                expect(consoleWarn.mock.calls[1].arguments[0]).toContain(
                     `[React Intl] Cannot format message: "${id}", using message id as fallback.`
                 );
             });

@@ -10,7 +10,7 @@ export default function (buildPath) {
             const ReactIntlBuild = require(buildPath);
 
             Object.keys(ReactIntl).forEach((name) => {
-                expect(ReactIntlBuild[name]).toBeInstanceOf(typeof ReactIntl[name]);
+                expect(ReactIntlBuild[name]).toBeInstanceOf(ReactIntl[name]);
             });
         });
     });
