@@ -41,25 +41,16 @@ export default function injectIntl(WrappedComponent, options = {}) {
           '`injectIntl()`'
       );
 
-      return this.refs.wrappedInstance;
+      return this._wrappedInstance;
     }
 
     render() {
-      if (!this.context.intl) {
-        const DeepWrappedComponent = injectIntl(WrappedComponent);
-        return (
-          <IntlProvider>
-            <DeepWrappedComponent />
-          </IntlProvider>
-        );
-      }
-
-     return (
-       <WrappedComponent
-         {...this.props}
-         {...{[intlPropName]: this.context.intl}}
-         ref={withRef ? 'wrappedInstance' : null}
-       />
+      return (
+        <WrappedComponent
+          {...this.props}
+          {...{[intlPropName]: this.context.intl}}
+          ref={withRef ? /* istanbul ignore next */ (ref => this._wrappedInstance = ref) : null}
+        />
       );
     }
   }
