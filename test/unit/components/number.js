@@ -1,4 +1,3 @@
-import expect, {createSpy, spyOn} from 'expect';
 import React from 'react';
 import {mount} from 'enzyme';
 import {generateIntlContext, makeMockContext, shallowDeep} from '../testUtils';
@@ -13,7 +12,7 @@ describe('<FormattedNumber>', () => {
     let intl;
 
     beforeEach(() => {
-        consoleError = spyOn(console, 'error');
+        consoleError = jest.spyOn(console, 'error');
         intl = generateIntlContext({
           locale: 'en'
         });
@@ -63,7 +62,7 @@ describe('<FormattedNumber>', () => {
         const FormattedNumber = mockContext(intl);
         const num = 1000;
 
-        const spy = createSpy().andReturn(null);
+        const spy = jest.fn().mockImplementation(() => null);
         const withIntlContext = mount(
           <FormattedNumber value={num}>
             { spy }
@@ -75,14 +74,14 @@ describe('<FormattedNumber>', () => {
         });
         withIntlContext.instance().mockContext(intl);
 
-        expect(spy.calls.length).toBe(1);
+        expect(spy.mock.calls.length).toBe(1);
     });
 
     it('should re-render when props change', () => {
       const FormattedNumber = mockContext(intl);
       const num = 1000;
 
-      const spy = createSpy().andReturn(null);
+      const spy = jest.fn().mockImplementation(() => null);
       const withIntlContext = mount(
         <FormattedNumber value={num}>
           { spy }
@@ -94,14 +93,14 @@ describe('<FormattedNumber>', () => {
         value: num + 1
       });
 
-      expect(spy.calls.length).toBe(2);
+      expect(spy.mock.calls.length).toBe(2);
     });
 
     it('should re-render when context changes', () => {
       const FormattedNumber = mockContext(intl);
       const num = 1000;
 
-      const spy = createSpy().andReturn(null);
+      const spy = jest.fn().mockImplementation(() => null);
       const withIntlContext = mount(
         <FormattedNumber value={num}>
           { spy }
@@ -111,7 +110,7 @@ describe('<FormattedNumber>', () => {
       const otherIntl = generateIntlContext({ locale: 'en-US' });
       withIntlContext.instance().mockContext(otherIntl);
 
-      expect(spy.calls.length).toBe(2);
+      expect(spy.mock.calls.length).toBe(2);
     });
 
     it('accepts valid Intl.NumberFormat options as props', () => {
@@ -171,7 +170,7 @@ describe('<FormattedNumber>', () => {
         const FormattedNumber = mockContext(intl);
         const num = new Date();
 
-        const spy = createSpy().andReturn(<span>Jest</span>);
+        const spy = jest.fn().mockImplementation(() => <span>Jest</span>);
         const rendered = shallowDeep(
           <FormattedNumber value={num}>
             { spy }
@@ -179,8 +178,8 @@ describe('<FormattedNumber>', () => {
           2
         );
 
-        expect(spy.calls.length).toBe(1);
-        expect(spy.calls[0].arguments).toEqual([
+        expect(spy.mock.calls.length).toBe(1);
+        expect(spy.mock.calls[0]).toEqual([
           intl.formatNumber(num)
         ]);
 

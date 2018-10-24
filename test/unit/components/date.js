@@ -1,4 +1,3 @@
-import expect, {createSpy, spyOn} from 'expect';
 import React from 'react';
 import {mount} from 'enzyme';
 import {generateIntlContext, makeMockContext, shallowDeep} from '../testUtils';
@@ -13,7 +12,7 @@ describe('<FormattedDate>', () => {
     let intl;
 
     beforeEach(() => {
-        consoleError = spyOn(console, 'error');
+        consoleError = jest.spyOn(console, 'error');
         intl = generateIntlContext({
           locale: 'en'
         });
@@ -72,7 +71,7 @@ describe('<FormattedDate>', () => {
         const FormattedDate = mockContext(intl);
         const date = Date.now();
 
-        const spy = createSpy().andReturn(null);
+        const spy = jest.fn().mockImplementation(() => null);
         const withInlContext = mount(
           <FormattedDate value={date}>
             { spy }
@@ -84,14 +83,14 @@ describe('<FormattedDate>', () => {
         });
         withInlContext.instance().mockContext(intl);
 
-        expect(spy.calls.length).toBe(1);
+        expect(spy.mock.calls.length).toBe(1);
     });
 
     it('should re-render when props change', () => {
       const FormattedDate = mockContext(intl);
       const date = Date.now();
 
-      const spy = createSpy().andReturn(null);
+      const spy = jest.fn().mockImplementation(() => null);
       const withInlContext = mount(
         <FormattedDate value={date}>
           { spy }
@@ -103,14 +102,14 @@ describe('<FormattedDate>', () => {
         value: withInlContext.prop('value') + 1
       });
 
-      expect(spy.calls.length).toBe(2);
+      expect(spy.mock.calls.length).toBe(2);
     });
 
     it('should re-render when context changes', () => {
       const FormattedDate = mockContext(intl);
       const date = Date.now();
 
-      const spy = createSpy().andReturn(null);
+      const spy = jest.fn().mockImplementation(() => null);
       const withInlContext = mount(
         <FormattedDate value={date}>
           { spy }
@@ -122,7 +121,7 @@ describe('<FormattedDate>', () => {
       });
       withInlContext.instance().mockContext(otherIntl);
 
-      expect(spy.calls.length).toBe(2);
+      expect(spy.mock.calls.length).toBe(2);
     });
 
     it('accepts valid Intl.DateTimeFormat options as props', () => {
@@ -178,7 +177,7 @@ describe('<FormattedDate>', () => {
         const FormattedDate = mockContext(intl);
         const date = Date.now();
 
-        const spy = createSpy().andReturn(<b>Jest</b>);
+        const spy = jest.fn().mockImplementation(() => <b>Jest</b>);
         const rendered = shallowDeep(
           <FormattedDate value={date}>
             { spy }
@@ -186,8 +185,8 @@ describe('<FormattedDate>', () => {
           2
         );
 
-        expect(spy.calls.length).toBe(1);
-        expect(spy.calls[0].arguments).toEqual([
+        expect(spy.mock.calls.length).toBe(1);
+        expect(spy.mock.calls[0]).toEqual([
           intl.formatDate(date)
         ]);
 
