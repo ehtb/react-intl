@@ -47,21 +47,12 @@ export default function injectIntl(WrappedComponent, options = {}) {
     }
 
     render() {
-      if (!this.context.intl) {
-        const DeepWrappedComponent = injectIntl(WrappedComponent);
-        return (
-          <IntlProvider>
-            <DeepWrappedComponent />
-          </IntlProvider>
-        );
-      }
-
-     return (
-       <WrappedComponent
-         {...this.props}
-         {...{[intlPropName]: this.context.intl}}
-         ref={withRef ? React.createRef ? this._wrappedInstance : (ref => this._wrappedInstance = ref) : null}
-       />
+      return (
+        <WrappedComponent
+          {...this.props}
+          {...{[intlPropName]: this.context.intl}}
+          ref={withRef ? /* istanbul ignore next */ (ref => this._wrappedInstance = ref) : null}
+        />
       );
     }
   }
