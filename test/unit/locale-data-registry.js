@@ -28,11 +28,11 @@ describe('locale data registry', () => {
     });
 
     describe('exports', () => {
-        it('exports `addLocaleData`', () => {
+        test('exports `addLocaleData`', () => {
             expect(typeof registry.addLocaleData).toBe('function');
         });
 
-        it('exports `hasLocaleData`', () => {
+        test('exports `hasLocaleData`', () => {
             expect(typeof registry.hasLocaleData).toBe('function');
         });
     });
@@ -45,25 +45,25 @@ describe('locale data registry', () => {
             IntlRelativeFormat.__addLocaleData(IRF_LOCALE_DATA.en);
         });
 
-        it('does not throw when called with no arguments', () => {
+        test('does not throw when called with no arguments', () => {
             expect(() => registry.hasLocaleData()).not.toThrow();
         });
 
-        it('returns `false` when called with no arguments', () => {
+        test('returns `false` when called with no arguments', () => {
             expect(registry.hasLocaleData()).toBe(false);
         });
 
-        it('returns `true` for built-in "en" locale', () => {
+        test('returns `true` for built-in "en" locale', () => {
             expect(registry.hasLocaleData('en')).toBe(true);
         });
 
-        it('normalizes the passed-in locale', () => {
+        test('normalizes the passed-in locale', () => {
             expect(registry.hasLocaleData('EN')).toBe(true);
             expect(registry.hasLocaleData('eN')).toBe(true);
             expect(registry.hasLocaleData('En')).toBe(true);
         });
 
-        it('delegates to IntlMessageFormat and IntlRelativeFormat', () => {
+        test('delegates to IntlMessageFormat and IntlRelativeFormat', () => {
             emptyLocaleData();
             expect(registry.hasLocaleData('en')).toBe(false);
 
@@ -72,11 +72,14 @@ describe('locale data registry', () => {
             expect(registry.hasLocaleData('en')).toBe(true);
         });
 
-        it('requires both IntlMessageFormat and IntlRelativeFormat to have locale data', () => {
-            emptyLocaleData();
-            IntlMessageFormat.__addLocaleData(IMF_LOCALE_DATA.en);
-            expect(registry.hasLocaleData('en')).toBe(false);
-        });
+        test(
+            'requires both IntlMessageFormat and IntlRelativeFormat to have locale data',
+            () => {
+                emptyLocaleData();
+                IntlMessageFormat.__addLocaleData(IMF_LOCALE_DATA.en);
+                expect(registry.hasLocaleData('en')).toBe(false);
+            }
+        );
     });
 
     describe('addLocaleData()', () => {
@@ -84,18 +87,18 @@ describe('locale data registry', () => {
             emptyLocaleData();
         });
 
-        it('does not throw when called with no arguments', () => {
+        test('does not throw when called with no arguments', () => {
             expect(() => registry.addLocaleData()).not.toThrow();
         });
 
-        it('adds locale data to the registry', () => {
+        test('adds locale data to the registry', () => {
             expect(registry.hasLocaleData(defaultLocaleData.locale)).toBe(false);
 
             registry.addLocaleData(defaultLocaleData);
             expect(registry.hasLocaleData(defaultLocaleData.locale)).toBe(true);
         });
 
-        it('accepts an array of locale data', () => {
+        test('accepts an array of locale data', () => {
             expect(Array.isArray(allLocaleData)).toBe(true);
 
             const {locale} = allLocaleData[0];

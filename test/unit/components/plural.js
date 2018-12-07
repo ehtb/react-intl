@@ -22,18 +22,18 @@ describe('<FormattedPlural>', () => {
         consoleWarn.mockReset();
     });
 
-    it('has a `displayName`', () => {
+    test('has a `displayName`', () => {
         expect(typeof FormattedPlural.displayName).toBe('string');
     });
 
-    it('throws when <IntlProvider> is missing from ancestry', () => {
+    test('throws when <IntlProvider> is missing from ancestry', () => {
         const FormattedPlural = mockContext();
         expect(() => shallowDeep(<FormattedPlural />, 2)).toThrow(
             '[React Intl] Could not find required `intl` object. <IntlProvider> needs to exist in the component ancestry.'
         );
     });
 
-    it('renders an empty <span> when no `other` prop is provided', () => {
+    test('renders an empty <span> when no `other` prop is provided', () => {
         const FormattedPlural = mockContext(intl);
 
         const rendered = shallowDeep(
@@ -51,7 +51,7 @@ describe('<FormattedPlural>', () => {
         expect(renderedWithValue.text()).toBe('');
     });
 
-    it('renders `other` in a <span> when no `value` prop is provided', () => {
+    test('renders `other` in a <span> when no `value` prop is provided', () => {
         const FormattedPlural = mockContext(intl);
         const other = 'Jest';
 
@@ -63,7 +63,7 @@ describe('<FormattedPlural>', () => {
         expect(rendered.text()).toBe(other);
     });
 
-    it('renders a formatted plural in a <span>', () => {
+    test('renders a formatted plural in a <span>', () => {
         const FormattedPlural = mockContext(intl);
         const num = 1;
         const one = 'foo';
@@ -81,7 +81,7 @@ describe('<FormattedPlural>', () => {
         );
     });
 
-    it('should not re-render when props and context are the same', () => {
+    test('should not re-render when props and context are the same', () => {
         const FormattedPlural = mockContext(intl);
 
         const spy = jest.fn().mockImplementation(() => null);
@@ -99,7 +99,7 @@ describe('<FormattedPlural>', () => {
         expect(spy.mock.calls.length).toBe(1);
     });
 
-    it('should re-render when props change', () => {
+    test('should re-render when props change', () => {
         const FormattedPlural = mockContext(intl);
 
         const spy = jest.fn().mockImplementation(() => null);
@@ -117,7 +117,7 @@ describe('<FormattedPlural>', () => {
         expect(spy.mock.calls.length).toBe(2);
     });
 
-    it('should re-render when context changes', () => {
+    test('should re-render when context changes', () => {
         const FormattedPlural = mockContext(intl);
 
         const spy = jest.fn().mockImplementation(() => null);
@@ -135,7 +135,7 @@ describe('<FormattedPlural>', () => {
         expect(spy.mock.calls.length).toBe(2);
     });
 
-    it('accepts valid IntlPluralFormat options as props', () => {
+    test('accepts valid IntlPluralFormat options as props', () => {
         const FormattedPlural = mockContext(intl);
         const num = 22;
         const props = {two: 'nd'};
@@ -152,7 +152,7 @@ describe('<FormattedPlural>', () => {
         );
     });
 
-    it('supports function-as-child pattern', () => {
+    test('supports function-as-child pattern', () => {
         const FormattedPlural = mockContext(intl);
         const props = {one: 'foo'};
         const num = 1;

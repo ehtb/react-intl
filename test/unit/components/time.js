@@ -25,18 +25,18 @@ describe('<FormattedTime>', () => {
         consoleWarn.mockReset();
     });
 
-    it('has a `displayName`', () => {
+    test('has a `displayName`', () => {
         expect(typeof FormattedTime.displayName).toBe('string');
     });
 
-    it('throws when <IntlProvider> is missing from ancestry', () => {
+    test('throws when <IntlProvider> is missing from ancestry', () => {
         const FormattedTime = mockContext();
         expect(() => shallowDeep(<FormattedTime />, 2)).toThrow(
             '[React Intl] Could not find required `intl` object. <IntlProvider> needs to exist in the component ancestry.'
         );
     });
 
-    it('requires a finite `value` prop', () => {
+    test('requires a finite `value` prop', () => {
         const FormattedTime = mockContext(intl);
 
         const withIntlContext = mount(
@@ -49,12 +49,12 @@ describe('<FormattedTime>', () => {
           value: undefined
         });
         expect(consoleError.mock.calls.length).toBe(1);
-        expect(consoleError.mock.calls[0].arguments[0]).toContain(
+        expect(consoleError.mock.calls[0][0]).toContain(
             '[React Intl] Error formatting time.\nRangeError'
         );
     });
 
-    it('renders a formatted time in a <span>', () => {
+    test('renders a formatted time in a <span>', () => {
         const FormattedTime = mockContext(intl);
         const date = new Date();
 
@@ -67,7 +67,7 @@ describe('<FormattedTime>', () => {
         expect(rendered.text()).toBe(intl.formatTime(date));
     });
 
-    it('should not re-render when props and context are the same', () => {
+    test('should not re-render when props and context are the same', () => {
         const FormattedTime = mockContext(intl);
         const date = Date.now();
 
@@ -86,7 +86,7 @@ describe('<FormattedTime>', () => {
         expect(spy.mock.calls.length).toBe(1);
     });
 
-    it('should re-render when props change', () => {
+    test('should re-render when props change', () => {
       const FormattedTime = mockContext(intl);
       const date = Date.now();
 
@@ -105,7 +105,7 @@ describe('<FormattedTime>', () => {
       expect(spy.mock.calls.length).toBe(2);
     });
 
-    it('should re-render when context changes', () => {
+    test('should re-render when context changes', () => {
       const FormattedTime = mockContext(intl);
       const date = Date.now();
 
@@ -122,7 +122,7 @@ describe('<FormattedTime>', () => {
       expect(spy.mock.calls.length).toBe(2);
     });
 
-    it('accepts valid Intl.DateTimeFormat options as props', () => {
+    test('accepts valid Intl.DateTimeFormat options as props', () => {
         const FormattedTime = mockContext(intl);
         const date = Date.now();
         const options = {hour: '2-digit'};
@@ -137,7 +137,7 @@ describe('<FormattedTime>', () => {
         );
     });
 
-    it('fallsback and warns on invalid Intl.DateTimeFormat options', () => {
+    test('fallsback and warns on invalid Intl.DateTimeFormat options', () => {
         const FormattedTime = mockContext(intl);
         const date = new Date();
 
@@ -150,7 +150,7 @@ describe('<FormattedTime>', () => {
         expect(consoleError.mock.calls.length).toBeGreaterThan(0);
     });
 
-    it('accepts `format` prop', () => {
+    test('accepts `format` prop', () => {
         intl = generateIntlContext({
             locale: 'en',
             formats: {
@@ -177,7 +177,7 @@ describe('<FormattedTime>', () => {
         );
     });
 
-    it('supports function-as-child pattern', () => {
+    test('supports function-as-child pattern', () => {
         const FormattedTime = mockContext(intl);
         const date = Date.now();
 

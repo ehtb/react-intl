@@ -2,54 +2,54 @@ import * as ReactIntl from '../../src/react-intl';
 
 describe('react-intl', () => {
     describe('exports', () => {
-        it('exports `addLocaleData`', () => {
+        test('exports `addLocaleData`', () => {
             expect(typeof ReactIntl.addLocaleData).toBe('function');
         });
 
-        it('exports `defineMessages`', () => {
+        test('exports `defineMessages`', () => {
             expect(typeof ReactIntl.defineMessages).toBe('function');
         });
 
-        it('exports `injectIntl`', () => {
+        test('exports `injectIntl`', () => {
             expect(typeof ReactIntl.injectIntl).toBe('function');
         });
 
         describe('React Components', () => {
-            it('exports `IntlProvider`', () => {
+            test('exports `IntlProvider`', () => {
                 expect(typeof ReactIntl.IntlProvider).toBe('function');
             });
 
-            it('exports `FormattedDate`', () => {
+            test('exports `FormattedDate`', () => {
                 expect(typeof ReactIntl.FormattedDate).toBe('function');
             });
 
-            it('exports `FormattedTime`', () => {
+            test('exports `FormattedTime`', () => {
                 expect(typeof ReactIntl.FormattedTime).toBe('function');
             });
 
-            it('exports `FormattedRelative`', () => {
+            test('exports `FormattedRelative`', () => {
                 expect(typeof ReactIntl.FormattedRelative).toBe('function');
             });
 
-            it('exports `FormattedNumber`', () => {
+            test('exports `FormattedNumber`', () => {
                 expect(typeof ReactIntl.FormattedNumber).toBe('function');
             });
 
-            it('exports `FormattedPlural`', () => {
+            test('exports `FormattedPlural`', () => {
                 expect(typeof ReactIntl.FormattedPlural).toBe('function');
             });
 
-            it('exports `FormattedMessage`', () => {
+            test('exports `FormattedMessage`', () => {
                 expect(typeof ReactIntl.FormattedMessage).toBe('function');
             });
 
-            it('exports `FormattedHTMLMessage`', () => {
+            test('exports `FormattedHTMLMessage`', () => {
                 expect(typeof ReactIntl.FormattedHTMLMessage).toBe('function');
             });
         });
 
         describe('PropTypes Definitions', () => {
-            it('exports `intlShape`', () => {
+            test('exports `intlShape`', () => {
                 expect(typeof ReactIntl.intlShape).toBe('function');
             });
         });

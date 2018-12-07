@@ -30,26 +30,26 @@ describe('withIntl()', () => {
       rendered && rendered.unmount();
     });
 
-    it('allows introspection access to the wrapped component', () => {
+    test('allows introspection access to the wrapped component', () => {
         expect(withIntl(Wrapped).WrappedComponent).toBe(Wrapped);
     });
 
-    it('hoists non-react statics',() => {
+    test('hoists non-react statics', () => {
         expect(withIntl(Wrapped).someNonReactStatic.foo).toBe(true)
     });
 
     describe('displayName', () => {
-        it('is descriptive by default', () => {
+        test('is descriptive by default', () => {
             expect(withIntl(() => null).displayName).toBe('withIntl(Component)');
         });
 
-        it('includes `WrappedComponent`\'s `displayName`', () => {
+        test('includes `WrappedComponent`\'s `displayName`', () => {
             Wrapped.displayName = 'Foo';
             expect(withIntl(Wrapped).displayName).toBe('withIntl(Foo)');
         });
     });
 
-    it('throws when <IntlProvider> is missing from ancestry', () => {
+    test('throws when <IntlProvider> is missing from ancestry', () => {
         const Injected = withIntl(Wrapped);
 
         const consoleError = jest.spyOn(console, 'error'); // surpress console error from JSDom
@@ -59,7 +59,7 @@ describe('withIntl()', () => {
         consoleError.mockReset();
     });
 
-    it('renders <WrappedComponent> with `intl` prop', () => {
+    test('renders <WrappedComponent> with `intl` prop', () => {
         const Injected = withIntl(Wrapped);
 
         rendered = mountWithProvider(<Injected />);
@@ -71,7 +71,7 @@ describe('withIntl()', () => {
         ).toBe(intlProvider.instance().getContext());
     });
 
-    it('propagates all props to <WrappedComponent>', () => {
+    test('propagates all props to <WrappedComponent>', () => {
         const Injected = withIntl(Wrapped);
         const props = {
           foo: 'bar'
@@ -87,27 +87,30 @@ describe('withIntl()', () => {
 
     describe('options', () => {
         describe('intlPropName', () => {
-            it('sets <WrappedComponent>\'s `props[intlPropName]` to `context.intl`', () => {
-                const propName = 'myIntl';
-                Wrapped.propTypes = {
-                  [propName]: intlShape.isRequired
-                };
-                const Injected = withIntl(Wrapped, {
-                  intlPropName: propName
-                });
+            test(
+                'sets <WrappedComponent>\'s `props[intlPropName]` to `context.intl`',
+                () => {
+                    const propName = 'myIntl';
+                    Wrapped.propTypes = {
+                      [propName]: intlShape.isRequired
+                    };
+                    const Injected = withIntl(Wrapped, {
+                      intlPropName: propName
+                    });
 
-                rendered = mountWithProvider(<Injected />);
-                const intlProvider = rendered.find(IntlProvider).childAt(0);
-                const wrapped = rendered.find(Wrapped);
+                    rendered = mountWithProvider(<Injected />);
+                    const intlProvider = rendered.find(IntlProvider).childAt(0);
+                    const wrapped = rendered.find(Wrapped);
 
-                expect(wrapped.prop(propName)).toBe(
-                  intlProvider.instance().getContext()
-                );
-            });
+                    expect(wrapped.prop(propName)).toBe(
+                      intlProvider.instance().getContext()
+                    );
+                }
+            );
         });
 
         describe('withRef', () => {
-            it('throws when `false` and getWrappedInstance() is called', () => {
+            test('throws when `false` and getWrappedInstance() is called', () => {
                 const Injected = withIntl(Wrapped);
 
                 rendered = mountWithProvider(<Injected />);
@@ -118,7 +121,7 @@ describe('withIntl()', () => {
                 );
             });
 
-            it('does not throw when `true` getWrappedInstance() is called', () => {
+            test('does not throw when `true` getWrappedInstance() is called', () => {
               Wrapped = class extends React.Component {
                 render () {
                   return null

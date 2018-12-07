@@ -90,7 +90,7 @@ describe('format API', () => {
 
     describe('exports', () => {
         Object.keys(intlFormatPropTypes).forEach((name) => {
-            it(`exports \`${name}\``, () => {
+            test(`exports \`${name}\``, () => {
                 expect(typeof f[name]).toBe('function');
             });
         });
@@ -105,40 +105,40 @@ describe('format API', () => {
             formatDate = f.formatDate.bind(null, config, state);
         });
 
-        it('fallsback and warns when no value is provided', () => {
+        test('fallsback and warns when no value is provided', () => {
             expect(formatDate()).toBe('Invalid Date');
-            expect(consoleWarn.mock.calls.length).toBe(1);
-            expect(consoleWarn.mock.calls[0].arguments[0]).toContain(
+            expect(consoleError.mock.calls.length).toBe(1);
+            expect(consoleError.mock.calls[0][0]).toContain(
                 '[React Intl] Error formatting date.\nRangeError'
             );
         });
 
-        it('fallsback and warns when a non-finite value is provided', () => {
+        test('fallsback and warns when a non-finite value is provided', () => {
             expect(formatDate(NaN)).toBe('Invalid Date');
             expect(formatDate('')).toBe('Invalid Date');
-            expect(consoleWarn.mock.calls.length).toBe(2);
+            expect(consoleError.mock.calls.length).toBe(2);
         });
 
-        it('formats falsy finite values', () => {
+        test('formats falsy finite values', () => {
             expect(formatDate(false)).toBe(df.format(false));
             expect(formatDate(null)).toBe(df.format(null));
             expect(formatDate(0)).toBe(df.format(0));
         });
 
-        it('formats date instance values', () => {
+        test('formats date instance values', () => {
             expect(formatDate(new Date(0))).toBe(df.format(new Date(0)));
         });
 
-        it('formats date string values', () => {
+        test('formats date string values', () => {
             expect(formatDate(new Date(0).toString())).toBe(df.format(new Date(0)));
         });
 
-        it('formats date ms timestamp values', () => {
+        test('formats date ms timestamp values', () => {
             const timestamp = Date.now();
             expect(formatDate(timestamp)).toBe(df.format(timestamp));
         });
 
-        it('uses the time zone specified by the provider', () => {
+        test('uses the time zone specified by the provider', () => {
             const timestamp = Date.now();
             config.timeZone =  'Pacific/Wake';
             formatDate = f.formatDate.bind(null, config, state);
@@ -155,23 +155,23 @@ describe('format API', () => {
         });
 
         describe('options', () => {
-            it('accepts empty options', () => {
+            test('accepts empty options', () => {
                 expect(formatDate(0, {})).toBe(df.format(0));
             });
 
-            it('accepts valid Intl.DateTimeFormat options', () => {
+            test('accepts valid Intl.DateTimeFormat options', () => {
                 expect(() => formatDate(0, {year: 'numeric'})).not.toThrow();
             });
 
-            it('fallsback and warns on invalid Intl.DateTimeFormat options', () => {
+            test('fallsback and warns on invalid Intl.DateTimeFormat options', () => {
                 expect(formatDate(0, {year: 'invalid'})).toBe(String(new Date(0)));
-                expect(consoleWarn.mock.calls.length).toBe(1);
-                expect(consoleWarn.mock.calls[0].arguments[0]).toContain(
+                expect(consoleError.mock.calls.length).toBe(1);
+                expect(consoleError.mock.calls[0][0]).toContain(
                     '[React Intl] Error formatting date.\nRangeError'
                 );
             });
 
-            it('uses configured named formats', () => {
+            test('uses configured named formats', () => {
                 const date   = new Date();
                 const format = 'year-only';
 
@@ -181,7 +181,7 @@ describe('format API', () => {
                 expect(formatDate(date, {format})).toBe(df.format(date));
             });
 
-            it('uses named formats as defaults', () => {
+            test('uses named formats as defaults', () => {
                 const date   = new Date();
                 const opts   = {month: 'numeric'};
                 const format = 'year-only';
@@ -195,28 +195,31 @@ describe('format API', () => {
                 expect(formatDate(date, {...opts, format})).toBe(df.format(date));
             });
 
-            it('handles missing named formats and warns', () => {
+            test('handles missing named formats and warns', () => {
                 const date   = new Date();
                 const format = 'missing';
 
                 df = new Intl.DateTimeFormat(config.locale);
 
                 expect(formatDate(date, {format})).toBe(df.format(date));
-                expect(consoleWarn.mock.calls.length).toBe(1);
-                expect(consoleWarn.mock.calls[0].arguments[0]).toBe(
+                expect(consoleError.mock.calls.length).toBe(1);
+                expect(consoleError.mock.calls[0][0]).toBe(
                     `[React Intl] No date format named: ${format}`
                 );
             });
 
-            it('uses time zone specified in options over the one passed through by the provider', () => {
-                const timestamp = Date.now();
-                config.timeZone = 'Pacific/Wake';
-                formatDate = f.formatDate.bind(null, config, state);
-                const shanghaiDf = new Intl.DateTimeFormat(config.locale, {
-                    timeZone: 'Asia/Shanghai',
-                });
-                expect(formatDate(timestamp, {timeZone: 'Asia/Shanghai'})).toBe(shanghaiDf.format(timestamp));
-            });
+            test(
+                'uses time zone specified in options over the one passed through by the provider',
+                () => {
+                    const timestamp = Date.now();
+                    config.timeZone = 'Pacific/Wake';
+                    formatDate = f.formatDate.bind(null, config, state);
+                    const shanghaiDf = new Intl.DateTimeFormat(config.locale, {
+                        timeZone: 'Asia/Shanghai',
+                    });
+                    expect(formatDate(timestamp, {timeZone: 'Asia/Shanghai'})).toBe(shanghaiDf.format(timestamp));
+                }
+            );
         });
     });
 
@@ -233,40 +236,40 @@ describe('format API', () => {
             formatTime = f.formatTime.bind(null, config, state);
         });
 
-        it('fallsback and warns when no value is provided', () => {
+        test('fallsback and warns when no value is provided', () => {
             expect(formatTime()).toBe('Invalid Date');
-            expect(consoleWarn.mock.calls.length).toBe(1);
-            expect(consoleWarn.mock.calls[0].arguments[0]).toContain(
+            expect(consoleError.mock.calls.length).toBe(1);
+            expect(consoleError.mock.calls[0][0]).toContain(
                 '[React Intl] Error formatting time.\nRangeError'
             );
         });
 
-        it('fallsback and warns when a non-finite value is provided', () => {
+        test('fallsback and warns when a non-finite value is provided', () => {
             expect(formatTime(NaN)).toBe('Invalid Date');
             expect(formatTime('')).toBe('Invalid Date');
-            expect(consoleWarn.mock.calls.length).toBe(2);
+            expect(consoleError.mock.calls.length).toBe(2);
         });
 
-        it('formats falsy finite values', () => {
+        test('formats falsy finite values', () => {
             expect(formatTime(false)).toBe(df.format(false));
             expect(formatTime(null)).toBe(df.format(null));
             expect(formatTime(0)).toBe(df.format(0));
         });
 
-        it('formats date instance values', () => {
+        test('formats date instance values', () => {
             expect(formatTime(new Date(0))).toBe(df.format(new Date(0)));
         });
 
-        it('formats date string values', () => {
+        test('formats date string values', () => {
             expect(formatTime(new Date(0).toString())).toBe(df.format(new Date(0)));
         });
 
-        it('formats date ms timestamp values', () => {
+        test('formats date ms timestamp values', () => {
             const timestamp = Date.now();
             expect(formatTime(timestamp)).toBe(df.format(timestamp));
         });
 
-        it('uses the time zone specified by the provider', () => {
+        test('uses the time zone specified by the provider', () => {
             const timestamp = Date.now();
             config.timeZone = 'Africa/Johannesburg';
             formatTime = f.formatTime.bind(null, config, state);
@@ -287,23 +290,23 @@ describe('format API', () => {
         });
 
         describe('options', () => {
-            it('accepts empty options', () => {
+            test('accepts empty options', () => {
                 expect(formatTime(0, {})).toBe(df.format(0));
             });
 
-            it('accepts valid Intl.DateTimeFormat options', () => {
+            test('accepts valid Intl.DateTimeFormat options', () => {
                 expect(() => formatTime(0, {hour: '2-digit'})).not.toThrow();
             });
 
-            it('fallsback and warns on invalid Intl.DateTimeFormat options', () => {
+            test('fallsback and warns on invalid Intl.DateTimeFormat options', () => {
                 expect(formatTime(0, {hour: 'invalid'})).toBe(String(new Date(0)));
-                expect(consoleWarn.mock.calls.length).toBe(1);
-                expect(consoleWarn.mock.calls[0].arguments[0]).toContain(
+                expect(consoleError.mock.calls.length).toBe(1);
+                expect(consoleError.mock.calls[0][0]).toContain(
                     '[React Intl] Error formatting time.\nRangeError'
                 );
             });
 
-            it('uses configured named formats', () => {
+            test('uses configured named formats', () => {
                 const date   = new Date();
                 const format = 'hour-only';
 
@@ -313,7 +316,7 @@ describe('format API', () => {
                 expect(formatTime(date, {format})).toBe(df.format(date));
             });
 
-            it('uses named formats as defaults', () => {
+            test('uses named formats as defaults', () => {
                 const date   = new Date();
                 const opts   = {minute: '2-digit'};
                 const format = 'hour-only';
@@ -327,18 +330,18 @@ describe('format API', () => {
                 expect(formatTime(date, {...opts, format})).toBe(df.format(date));
             });
 
-            it('handles missing named formats and warns', () => {
+            test('handles missing named formats and warns', () => {
                 const date   = new Date();
                 const format = 'missing';
 
                 expect(formatTime(date, {format})).toBe(df.format(date));
-                expect(consoleWarn.mock.calls.length).toBe(1);
-                expect(consoleWarn.mock.calls[0].arguments[0]).toBe(
+                expect(consoleError.mock.calls.length).toBe(1);
+                expect(consoleError.mock.calls[0][0]).toBe(
                     `[React Intl] No time format named: ${format}`
                 );
             });
 
-            it('should set default values', () => {
+            test('should set default values', () => {
                 const date = new Date();
                 const {locale} = config;
                 const day = 'numeric';
@@ -346,7 +349,7 @@ describe('format API', () => {
                 expect(formatTime(date, {day})).toBe(df.format(date));
             });
 
-            it('should not set default values when second is provided', () => {
+            test('should not set default values when second is provided', () => {
                 const date = new Date();
                 const {locale} = config;
                 const second = 'numeric';
@@ -354,7 +357,7 @@ describe('format API', () => {
                 expect(formatTime(date, {second})).toBe(df.format(date));
             });
 
-            it('should not set default values when minute is provided', () => {
+            test('should not set default values when minute is provided', () => {
                 const date = new Date();
                 const {locale} = config;
                 const minute = 'numeric';
@@ -362,7 +365,7 @@ describe('format API', () => {
                 expect(formatTime(date, {minute})).toBe(df.format(date));
             });
 
-            it('should not set default values when hour is provided', () => {
+            test('should not set default values when hour is provided', () => {
                 const date = new Date();
                 const {locale} = config;
                 const hour = 'numeric';
@@ -370,17 +373,20 @@ describe('format API', () => {
                 expect(formatTime(date, {hour})).toBe(df.format(date));
             });
 
-            it('uses time zone specified in options over the one passed through by the provider', () => {
-                const timestamp = Date.now();
-                config.timeZone = 'Africa/Johannesburg';
-                formatTime = f.formatTime.bind(null, config, state);
-                const chicagoDf = new Intl.DateTimeFormat(config.locale, {
-                    hour: 'numeric',
-                    minute: 'numeric',
-                    timeZone: 'America/Chicago',
-                });
-                expect(formatTime(timestamp, {timeZone: 'America/Chicago'})).toBe(chicagoDf.format(timestamp));
-            });
+            test(
+                'uses time zone specified in options over the one passed through by the provider',
+                () => {
+                    const timestamp = Date.now();
+                    config.timeZone = 'Africa/Johannesburg';
+                    formatTime = f.formatTime.bind(null, config, state);
+                    const chicagoDf = new Intl.DateTimeFormat(config.locale, {
+                        hour: 'numeric',
+                        minute: 'numeric',
+                        timeZone: 'America/Chicago',
+                    });
+                    expect(formatTime(timestamp, {timeZone: 'America/Chicago'})).toBe(chicagoDf.format(timestamp));
+                }
+            );
         });
     });
 
@@ -395,45 +401,45 @@ describe('format API', () => {
             formatRelative = f.formatRelative.bind(null, config, state);
         });
 
-        it('fallsback and warns when no value is provided', () => {
+        test('fallsback and warns when no value is provided', () => {
             expect(formatRelative()).toBe('Invalid Date');
-            expect(consoleWarn.mock.calls.length).toBe(1);
-            expect(consoleWarn.mock.calls[0].arguments[0]).toContain(
+            expect(consoleError.mock.calls.length).toBe(1);
+            expect(consoleError.mock.calls[0][0]).toContain(
                 '[React Intl] Error formatting relative time.\nRangeError'
             );
         });
 
-        it('fallsback and warns when a non-finite value is provided', () => {
+        test('fallsback and warns when a non-finite value is provided', () => {
             expect(formatRelative(NaN)).toBe('Invalid Date');
             expect(formatRelative('')).toBe('Invalid Date');
-            expect(consoleWarn.mock.calls.length).toBe(2);
+            expect(consoleError.mock.calls.length).toBe(2);
         });
 
-        it('formats falsy finite values', () => {
+        test('formats falsy finite values', () => {
             expect(formatRelative(false)).toBe(rf.format(false, {now}));
             expect(formatRelative(null)).toBe(rf.format(null, {now}));
             expect(formatRelative(0)).toBe(rf.format(0, {now}));
         });
 
-        it('formats date instance values', () => {
+        test('formats date instance values', () => {
             expect(formatRelative(new Date(0))).toBe(rf.format(new Date(0), {now}));
         });
 
-        it('formats date string values', () => {
+        test('formats date string values', () => {
             expect(formatRelative(new Date(0).toString())).toBe(rf.format(new Date(0), {now}));
         });
 
-        it('formats date ms timestamp values', () => {
+        test('formats date ms timestamp values', () => {
             const timestamp = Date.now();
             expect(formatRelative(timestamp)).toBe(rf.format(timestamp, {now}));
         });
 
-        it('formats with short format', () => {
+        test('formats with short format', () => {
             const timestamp = now - (1000 * 59);
             expect(formatRelative(timestamp, {units: 'second-short'})).toBe('59 sec. ago');
         });
 
-        it('formats with the expected thresholds', () => {
+        test('formats with the expected thresholds', () => {
             const timestamp = now - (1000 * 59);
             expect(IntlRelativeFormat.thresholds).toEqual(IRF_THRESHOLDS);
             expect(formatRelative(timestamp)).not.toBe(rf.format(timestamp, {now}));
@@ -444,34 +450,34 @@ describe('format API', () => {
         });
 
         describe('options', () => {
-            it('accepts empty options', () => {
+            test('accepts empty options', () => {
                 expect(formatRelative(0, {})).toBe(rf.format(0, {now}));
             });
 
-            it('accepts valid IntlRelativeFormat options', () => {
-                expect(() => formatRelative(0, {units: 'second'})).toNotThrow();
-                expect(() => formatRelative(0, {units: 'minute'})).toNotThrow();
-                expect(() => formatRelative(0, {units: 'hour'})).toNotThrow();
-                expect(() => formatRelative(0, {units: 'day'})).toNotThrow();
-                expect(() => formatRelative(0, {units: 'month'})).toNotThrow();
-                expect(() => formatRelative(0, {units: 'year'})).toNotThrow();
-                expect(() => formatRelative(0, {units: 'second-short'})).toNotThrow();
-                expect(() => formatRelative(0, {units: 'minute-short'})).toNotThrow();
-                expect(() => formatRelative(0, {units: 'hour-short'})).toNotThrow();
-                expect(() => formatRelative(0, {units: 'day-short'})).toNotThrow();
-                expect(() => formatRelative(0, {units: 'month-short'})).toNotThrow();
-                expect(() => formatRelative(0, {units: 'year-short'})).toNotThrow();
+            test('accepts valid IntlRelativeFormat options', () => {
+                expect(() => formatRelative(0, {units: 'second'})).not.toThrow();
+                expect(() => formatRelative(0, {units: 'minute'})).not.toThrow();
+                expect(() => formatRelative(0, {units: 'hour'})).not.toThrow();
+                expect(() => formatRelative(0, {units: 'day'})).not.toThrow();
+                expect(() => formatRelative(0, {units: 'month'})).not.toThrow();
+                expect(() => formatRelative(0, {units: 'year'})).not.toThrow();
+                expect(() => formatRelative(0, {units: 'second-short'})).not.toThrow();
+                expect(() => formatRelative(0, {units: 'minute-short'})).not.toThrow();
+                expect(() => formatRelative(0, {units: 'hour-short'})).not.toThrow();
+                expect(() => formatRelative(0, {units: 'day-short'})).not.toThrow();
+                expect(() => formatRelative(0, {units: 'month-short'})).not.toThrow();
+                expect(() => formatRelative(0, {units: 'year-short'})).not.toThrow();
             });
 
-            it('falls back and warns on invalid IntlRelativeFormat options', () => {
+            test('falls back and warns on invalid IntlRelativeFormat options', () => {
                 expect(formatRelative(0, {units: 'invalid'})).toBe(String(new Date(0)));
-                expect(consoleWarn.mock.calls.length).toBe(1);
-                expect(consoleWarn.mock.calls[0].arguments[0].startsWith(
+                expect(consoleError.mock.calls.length).toBe(1);
+                expect(consoleError.mock.calls[0][0].startsWith(
                     '[React Intl] Error formatting relative time.\nError: "invalid" is not a valid IntlRelativeFormat `units` value, it must be one of'
                 )).toBeTruthy();
             });
 
-            it('uses configured named formats', () => {
+            test('uses configured named formats', () => {
                 const date   = -(1000 * 120);
                 const format = 'seconds';
 
@@ -481,7 +487,7 @@ describe('format API', () => {
                 expect(formatRelative(date, {format})).toBe(rf.format(date, {now}));
             });
 
-            it('uses named formats as defaults', () => {
+            test('uses named formats as defaults', () => {
                 const date   = 0;
                 const opts   = {style: 'numeric'};
                 const format = 'seconds';
@@ -495,56 +501,56 @@ describe('format API', () => {
                 expect(formatRelative(date, {...opts, format})).toBe(rf.format(date, {now}));
             });
 
-            it('handles missing named formats and warns', () => {
+            test('handles missing named formats and warns', () => {
                 const date   = new Date();
                 const format = 'missing';
 
                 rf = new IntlRelativeFormat(config.locale);
 
                 expect(formatRelative(date, {format})).toBe(rf.format(date, {now}));
-                expect(consoleWarn.mock.calls.length).toBe(1);
-                expect(consoleWarn.mock.calls[0].arguments[0]).toBe(
+                expect(consoleError.mock.calls.length).toBe(1);
+                expect(consoleError.mock.calls[0][0]).toBe(
                     `[React Intl] No relative format named: ${format}`
                 );
             });
 
             describe('now', () => {
-                it('accepts a `now` option', () => {
+                test('accepts a `now` option', () => {
                     now = 1000;
                     expect(formatRelative(0, {now})).toBe(rf.format(0, {now}));
                 });
 
-                it('defaults to `state.now()` when no value is provided', () => {
+                test('defaults to `state.now()` when no value is provided', () => {
                     now = 2000;
                     state.now = () => now;
 
                     expect(formatRelative(1000)).toBe(rf.format(1000, {now}));
                 });
 
-                it('does not throw or warn when a non-finite value is provided', () => {
+                test('does not throw or warn when a non-finite value is provided', () => {
                     expect(() => formatRelative(0, {now: NaN})).not.toThrow();
                     expect(() => formatRelative(0, {now: ''})).not.toThrow();
-                    expect(consoleWarn.mock.calls.length).toBe(0);
+                    expect(consoleError.mock.calls.length).toBe(0);
                 });
 
-                it('formats falsy finite values', () => {
+                test('formats falsy finite values', () => {
                     expect(formatRelative(0, {now: false})).toBe(rf.format(0, {now: false}));
                     expect(formatRelative(0, {now: null})).toBe(rf.format(0, {now: null}));
                     expect(formatRelative(0, {now: 0})).toBe(rf.format(0, {now: 0}));
                 });
 
-                it('formats date instance values', () => {
+                test('formats date instance values', () => {
                     now = new Date(1000);
                     expect(formatRelative(0, {now})).toBe(rf.format(0, {now}));
                 });
 
-                it('formats date string values', () => {
+                test('formats date string values', () => {
                     now = 1000;
                     const dateString = new Date(now).toString();
                     expect(formatRelative(0, {now: dateString})).toBe(rf.format(0, {now}));
                 });
 
-                it('formats date ms timestamp values', () => {
+                test('formats date ms timestamp values', () => {
                     now = 1000;
                     expect(formatRelative(0, {now})).toBe(rf.format(0, {now}));
                 });
@@ -561,29 +567,29 @@ describe('format API', () => {
             formatNumber = f.formatNumber.bind(null, config, state);
         });
 
-        it('returns "NaN" when no value is provided', () => {
+        test('returns "NaN" when no value is provided', () => {
             expect(nf.format()).toBe('NaN');
             expect(formatNumber()).toBe('NaN');
         });
 
-        it('returns "NaN" when a non-number value is provided', () => {
+        test('returns "NaN" when a non-number value is provided', () => {
             expect(nf.format(NaN)).toBe('NaN');
             expect(formatNumber(NaN)).toBe('NaN');
         });
 
-        it('formats falsy values', () => {
+        test('formats falsy values', () => {
             expect(formatNumber(false)).toBe(nf.format(false));
             expect(formatNumber(null)).toBe(nf.format(null));
             expect(formatNumber('')).toBe(nf.format(''));
             expect(formatNumber(0)).toBe(nf.format(0));
         });
 
-        it('formats number values', () => {
+        test('formats number values', () => {
             expect(formatNumber(1000)).toBe(nf.format(1000));
             expect(formatNumber(1.1)).toBe(nf.format(1.1));
         });
 
-        it('formats string values parsed as numbers', () => {
+        test('formats string values parsed as numbers', () => {
             expect(Number('1000')).toBe(1000);
             expect(formatNumber('1000')).toBe(nf.format('1000'));
             expect(Number('1.10')).toBe(1.1);
@@ -591,23 +597,23 @@ describe('format API', () => {
         });
 
         describe('options', () => {
-            it('accepts empty options', () => {
+            test('accepts empty options', () => {
                 expect(formatNumber(1000, {})).toBe(nf.format(1000));
             });
 
-            it('accepts valid Intl.NumberFormat options', () => {
+            test('accepts valid Intl.NumberFormat options', () => {
                 expect(() => formatNumber(0, {style: 'percent'})).not.toThrow();
             });
 
-            it('fallsback and warns on invalid Intl.NumberFormat options', () => {
+            test('fallsback and warns on invalid Intl.NumberFormat options', () => {
                 expect(formatNumber(0, {style: 'invalid'})).toBe(String(0));
-                expect(consoleWarn.mock.calls.length).toBe(1);
-                expect(consoleWarn.mock.calls[0].arguments[0]).toContain(
+                expect(consoleError.mock.calls.length).toBe(1);
+                expect(consoleError.mock.calls[0][0]).toContain(
                     '[React Intl] Error formatting number.\nRangeError'
                 );
             });
 
-            it('uses configured named formats', () => {
+            test('uses configured named formats', () => {
                 const num    = 0.505;
                 const format = 'percent';
 
@@ -617,7 +623,7 @@ describe('format API', () => {
                 expect(formatNumber(num, {format})).toBe(nf.format(num));
             });
 
-            it('uses named formats as defaults', () => {
+            test('uses named formats as defaults', () => {
                 const num    = 0.500059;
                 const opts   = {maximumFractionDigits: 3};
                 const format = 'percent';
@@ -631,15 +637,15 @@ describe('format API', () => {
                 expect(formatNumber(num, {...opts, format})).toBe(nf.format(num));
             });
 
-            it('handles missing named formats and warns', () => {
+            test('handles missing named formats and warns', () => {
                 const num    = 1000;
                 const format = 'missing';
 
                 nf = new Intl.NumberFormat(config.locale);
 
                 expect(formatNumber(num, {format})).toBe(nf.format(num));
-                expect(consoleWarn.mock.calls.length).toBe(1);
-                expect(consoleWarn.mock.calls[0].arguments[0]).toBe(
+                expect(consoleError.mock.calls.length).toBe(1);
+                expect(consoleError.mock.calls[0][0]).toBe(
                     `[React Intl] No number format named: ${format}`
                 );
             });
@@ -655,7 +661,7 @@ describe('format API', () => {
             formatPlural = f.formatPlural.bind(null, config, state);
         });
 
-        it('formats falsy values', () => {
+        test('formats falsy values', () => {
             expect(formatPlural(undefined)).toBe(pf.format(undefined));
             expect(formatPlural(false)).toBe(pf.format(false));
             expect(formatPlural(null)).toBe(pf.format(null));
@@ -664,19 +670,19 @@ describe('format API', () => {
             expect(formatPlural(0)).toBe(pf.format(0));
         });
 
-        it('formats integer values', () => {
+        test('formats integer values', () => {
             expect(formatPlural(0)).toBe(pf.format(0));
             expect(formatPlural(1)).toBe(pf.format(1));
             expect(formatPlural(2)).toBe(pf.format(2));
         });
 
-        it('formats decimal values', () => {
+        test('formats decimal values', () => {
             expect(formatPlural(0.1)).toBe(pf.format(0.1));
             expect(formatPlural(1.0)).toBe(pf.format(1.0));
             expect(formatPlural(1.1)).toBe(pf.format(1.1));
         });
 
-        it('formats string values parsed as numbers', () => {
+        test('formats string values parsed as numbers', () => {
             expect(Number('0')).toBe(0);
             expect(formatPlural('0')).toBe(pf.format('0'));
             expect(Number('1')).toBe(1);
@@ -689,16 +695,16 @@ describe('format API', () => {
         });
 
         describe('options', () => {
-            it('accepts empty options', () => {
+            test('accepts empty options', () => {
                 expect(formatPlural(0, {})).toBe(pf.format(0));
             });
 
-            it('accepts valid IntlPluralFormat options', () => {
+            test('accepts valid IntlPluralFormat options', () => {
                 expect(() => formatPlural(22, {style: 'ordinal'})).not.toThrow();
             });
 
             describe('ordinals', () => {
-                it('formats using ordinal plural rules', () => {
+                test('formats using ordinal plural rules', () => {
                     const opts = {style: 'ordinal'};
                     pf = new IntlPluralFormat(config.locale, opts);
 
@@ -717,13 +723,13 @@ describe('format API', () => {
             formatMessage = f.formatMessage.bind(null, config, state);
         });
 
-        it('throws when no Message Descriptor is provided', () => {
+        test('throws when no Message Descriptor is provided', () => {
             expect(() => formatMessage()).toThrow(
                 '[React Intl] An `id` must be provided to format a message.'
             );
         });
 
-        it('throws when Message Descriptor `id` is missing or falsy', () => {
+        test('throws when Message Descriptor `id` is missing or falsy', () => {
             expect(() => formatMessage({})).toThrow(
                 '[React Intl] An `id` must be provided to format a message.'
             );
@@ -735,14 +741,14 @@ describe('format API', () => {
             });
         });
 
-        it('formats basic messages', () => {
+        test('formats basic messages', () => {
             const {locale, messages} = config;
             const mf = new IntlMessageFormat(messages.no_args, locale);
 
             expect(formatMessage({id: 'no_args'})).toBe(mf.format());
         });
 
-        it('formats messages with placeholders', () => {
+        test('formats messages with placeholders', () => {
             const {locale, messages} = config;
             const mf = new IntlMessageFormat(messages.with_arg, locale);
             const values = {name: 'Eric'};
@@ -750,7 +756,7 @@ describe('format API', () => {
             expect(formatMessage({id: 'with_arg'}, values)).toBe(mf.format(values));
         });
 
-        it('formats messages with named formats', () => {
+        test('formats messages with named formats', () => {
             const {locale, messages, formats} = config;
             const mf = new IntlMessageFormat(messages.with_named_format, locale, formats);
             const values = {now: Date.now()};
@@ -758,24 +764,24 @@ describe('format API', () => {
             expect(formatMessage({id: 'with_named_format'}, values)).toBe(mf.format(values));
         });
 
-        it('avoids formatting when no values and in production', () => {
+        test('avoids formatting when no values and in production', () => {
             const {messages} = config;
 
             process.env.NODE_ENV = 'production';
             expect(formatMessage({id: 'no_args'})).toBe(messages.no_args);
-            expect(state.getMessageFormat.calls.length).toBe(0);
+            expect(state.getMessageFormat.mock.calls.length).toBe(0);
 
             const values = {foo: 'foo'};
             expect(formatMessage({id: 'no_args'}, values)).toBe(messages.no_args);
-            expect(state.getMessageFormat.calls.length).toBe(1);
+            expect(state.getMessageFormat.mock.calls.length).toBe(1);
 
             process.env.NODE_ENV = 'development';
             expect(formatMessage({id: 'no_args'})).toBe(messages.no_args);
-            expect(state.getMessageFormat.calls.length).toBe(2);
+            expect(state.getMessageFormat.mock.calls.length).toBe(2);
         });
 
         describe('fallbacks', () => {
-            it('formats message with missing named formats', () => {
+            test('formats message with missing named formats', () => {
                 const {locale, messages} = config;
                 const mf = new IntlMessageFormat(messages.missing_named_format, locale);
                 const values = {now: Date.now()};
@@ -783,7 +789,7 @@ describe('format API', () => {
                 expect(formatMessage({id: 'missing_named_format'}, values)).toBe(mf.format(values));
             });
 
-            it('formats `defaultMessage` when message is missing', () => {
+            test('formats `defaultMessage` when message is missing', () => {
                 const {locale, messages} = config;
                 const mf = new IntlMessageFormat(messages.with_arg, locale);
                 const id = 'missing';
@@ -795,7 +801,7 @@ describe('format API', () => {
                 }, values)).toBe(mf.format(values));
             });
 
-            it('warns when `message` is missing and locales are different', () => {
+            test('warns when `message` is missing and locales are different', () => {
                 config.locale = 'fr';
 
                 let {locale, messages, defaultLocale} = config;
@@ -810,13 +816,13 @@ describe('format API', () => {
                     defaultMessage: messages.with_arg,
                 }, values)).toBe(mf.format(values));
 
-                expect(consoleWarn.mock.calls.length).toBe(1);
-                expect(consoleWarn.mock.calls[0].arguments[0]).toContain(
+                expect(consoleError.mock.calls.length).toBe(1);
+                expect(consoleError.mock.calls[0][0]).toContain(
                     `[React Intl] Missing message: "${id}" for locale: "${locale}", using default message as fallback.`
                 );
             });
 
-            it('warns when `message` and `defaultMessage` are missing', () => {
+            test('warns when `message` and `defaultMessage` are missing', () => {
                 let {locale, messages} = config;
                 let id = 'missing';
                 let values = {name: 'Eric'};
@@ -826,16 +832,16 @@ describe('format API', () => {
                     defaultMessage: messages.missing,
                 }, values)).toBe(id);
 
-                expect(consoleWarn.mock.calls.length).toBe(2);
-                expect(consoleWarn.mock.calls[0].arguments[0]).toContain(
+                expect(consoleError.mock.calls.length).toBe(2);
+                expect(consoleError.mock.calls[0][0]).toContain(
                     `[React Intl] Missing message: "${id}" for locale: "${locale}"`
                 );
-                expect(consoleWarn.mock.calls[1].arguments[0]).toContain(
+                expect(consoleError.mock.calls[1][0]).toContain(
                     `[React Intl] Cannot format message: "${id}", using message id as fallback.`
                 );
             });
 
-            it('formats `defaultMessage` when message has a syntax error', () => {
+            test('formats `defaultMessage` when message has a syntax error', () => {
                 const {locale, messages} = config;
                 const mf = new IntlMessageFormat(messages.with_arg, locale);
                 const id = 'invalid';
@@ -846,13 +852,13 @@ describe('format API', () => {
                     defaultMessage: messages.with_arg,
                 }, values)).toBe(mf.format(values));
 
-                expect(consoleWarn.mock.calls.length).toBe(1);
-                expect(consoleWarn.mock.calls[0].arguments[0]).toContain(
+                expect(consoleError.mock.calls.length).toBe(1);
+                expect(consoleError.mock.calls[0][0]).toContain(
                     `[React Intl] Error formatting message: "${id}" for locale: "${locale}", using default message as fallback.`
                 );
             });
 
-            it('formats `defaultMessage` when message has missing values', () => {
+            test('formats `defaultMessage` when message has missing values', () => {
                 const {locale, messages} = config;
                 const mf = new IntlMessageFormat(messages.with_arg, locale);
                 const id = 'missing_value';
@@ -863,105 +869,120 @@ describe('format API', () => {
                     defaultMessage: messages.with_arg,
                 }, values)).toBe(mf.format(values));
 
-                expect(consoleWarn.mock.calls.length).toBe(1);
-                expect(consoleWarn.mock.calls[0].arguments[0]).toContain(
+                expect(consoleError.mock.calls.length).toBe(1);
+                expect(consoleError.mock.calls[0][0]).toContain(
                     `[React Intl] Error formatting message: "${id}" for locale: "${locale}", using default message as fallback.`
                 );
             });
 
-            it('returns message source when message and `defaultMessage` have formatting errors', () => {
-                const {locale, messages} = config;
-                const id = 'missing_value';
+            test(
+                'returns message source when message and `defaultMessage` have formatting errors',
+                () => {
+                    const {locale, messages} = config;
+                    const id = 'missing_value';
 
-                expect(formatMessage({
-                    id: id,
-                    defaultMessage: messages.invalid,
-                })).toBe(messages[id]);
+                    expect(formatMessage({
+                        id: id,
+                        defaultMessage: messages.invalid,
+                    })).toBe(messages[id]);
 
-                expect(consoleWarn.mock.calls.length).toBe(3);
-                expect(consoleWarn.mock.calls[0].arguments[0]).toContain(
-                    `[React Intl] Error formatting message: "${id}" for locale: "${locale}"`
-                );
-                expect(consoleWarn.mock.calls[1].arguments[0]).toContain(
-                    `[React Intl] Error formatting the default message for: "${id}"`
-                );
-                expect(consoleWarn.mock.calls[2].arguments[0]).toContain(
-                    `[React Intl] Cannot format message: "${id}", using message source as fallback.`
-                );
-            });
+                    expect(consoleError.mock.calls.length).toBe(3);
+                    expect(consoleError.mock.calls[0][0]).toContain(
+                        `[React Intl] Error formatting message: "${id}" for locale: "${locale}"`
+                    );
+                    expect(consoleError.mock.calls[1][0]).toContain(
+                        `[React Intl] Error formatting the default message for: "${id}"`
+                    );
+                    expect(consoleError.mock.calls[2][0]).toContain(
+                        `[React Intl] Cannot format message: "${id}", using message source as fallback.`
+                    );
+                }
+            );
 
-            it('returns message source when formatting error and missing `defaultMessage`', () => {
-                const {locale, messages} = config;
-                const id = 'missing_value';
+            test(
+                'returns message source when formatting error and missing `defaultMessage`',
+                () => {
+                    const {locale, messages} = config;
+                    const id = 'missing_value';
 
-                expect(formatMessage({
-                    id: id,
-                    defaultMessage: messages.missing,
-                })).toBe(messages[id]);
+                    expect(formatMessage({
+                        id: id,
+                        defaultMessage: messages.missing,
+                    })).toBe(messages[id]);
 
-                expect(consoleWarn.mock.calls.length).toBe(2);
-                expect(consoleWarn.mock.calls[0].arguments[0]).toContain(
-                    `[React Intl] Error formatting message: "${id}" for locale: "${locale}"`
-                );
-                expect(consoleWarn.mock.calls[1].arguments[0]).toContain(
-                    `[React Intl] Cannot format message: "${id}", using message source as fallback.`
-                );
-            });
+                    expect(consoleError.mock.calls.length).toBe(2);
+                    expect(consoleError.mock.calls[0][0]).toContain(
+                        `[React Intl] Error formatting message: "${id}" for locale: "${locale}"`
+                    );
+                    expect(consoleError.mock.calls[1][0]).toContain(
+                        `[React Intl] Cannot format message: "${id}", using message source as fallback.`
+                    );
+                }
+            );
 
-            it('returns `defaultMessage` source when formatting errors and missing message', () => {
-                config.locale = 'en-US';
+            test(
+                'returns `defaultMessage` source when formatting errors and missing message',
+                () => {
+                    config.locale = 'en-US';
 
-                const {locale, messages} = config;
-                const id = 'missing';
+                    const {locale, messages} = config;
+                    const id = 'missing';
 
-                expect(formatMessage({
-                    id: id,
-                    defaultMessage: messages.invalid,
-                })).toBe(messages.invalid);
+                    expect(formatMessage({
+                        id: id,
+                        defaultMessage: messages.invalid,
+                    })).toBe(messages.invalid);
 
-                expect(consoleWarn.mock.calls.length).toBe(3);
-                expect(consoleWarn.mock.calls[0].arguments[0]).toContain(
-                    `[React Intl] Missing message: "${id}" for locale: "${locale}", using default message as fallback.`
-                );
-                expect(consoleWarn.mock.calls[1].arguments[0]).toContain(
-                    `[React Intl] Error formatting the default message for: "${id}"`
-                );
-                expect(consoleWarn.mock.calls[2].arguments[0]).toContain(
-                    `[React Intl] Cannot format message: "${id}", using message source as fallback.`
-                );
-            });
+                    expect(consoleError.mock.calls.length).toBe(3);
+                    expect(consoleError.mock.calls[0][0]).toContain(
+                        `[React Intl] Missing message: "${id}" for locale: "${locale}", using default message as fallback.`
+                    );
+                    expect(consoleError.mock.calls[1][0]).toContain(
+                        `[React Intl] Error formatting the default message for: "${id}"`
+                    );
+                    expect(consoleError.mock.calls[2][0]).toContain(
+                        `[React Intl] Cannot format message: "${id}", using message source as fallback.`
+                    );
+                }
+            );
 
-            it('returns message `id` when message and `defaultMessage` are missing', () => {
-                const id = 'missing';
+            test(
+                'returns message `id` when message and `defaultMessage` are missing',
+                () => {
+                    const id = 'missing';
 
-                expect(formatMessage({id: id})).toBe(id);
+                    expect(formatMessage({id: id})).toBe(id);
 
-                expect(consoleWarn.mock.calls.length).toBe(2);
-                expect(consoleWarn.mock.calls[0].arguments[0]).toContain(
-                    `[React Intl] Missing message: "${id}" for locale: "${config.locale}"`
-                );
-                expect(consoleWarn.mock.calls[1].arguments[0]).toContain(
-                    `[React Intl] Cannot format message: "${id}", using message id as fallback.`
-                );
-            });
+                    expect(consoleError.mock.calls.length).toBe(2);
+                    expect(consoleError.mock.calls[0][0]).toContain(
+                        `[React Intl] Missing message: "${id}" for locale: "${config.locale}"`
+                    );
+                    expect(consoleError.mock.calls[1][0]).toContain(
+                        `[React Intl] Cannot format message: "${id}", using message id as fallback.`
+                    );
+                }
+            );
 
-            it('returns message `id` when message and `defaultMessage` are empty', () => {
-                const {locale, messages} = config;
-                const id = 'empty';
+            test(
+                'returns message `id` when message and `defaultMessage` are empty',
+                () => {
+                    const {locale, messages} = config;
+                    const id = 'empty';
 
-                expect(formatMessage({
-                    id: id,
-                    defaultMessage: messages[id],
-                })).toBe(id);
+                    expect(formatMessage({
+                        id: id,
+                        defaultMessage: messages[id],
+                    })).toBe(id);
 
-                expect(consoleWarn.mock.calls.length).toBe(2);
-                expect(consoleWarn.mock.calls[0].arguments[0]).toContain(
-                    `[React Intl] Missing message: "${id}" for locale: "${locale}"`
-                );
-                expect(consoleWarn.mock.calls[1].arguments[0]).toContain(
-                    `[React Intl] Cannot format message: "${id}", using message id as fallback.`
-                );
-            });
+                    expect(consoleError.mock.calls.length).toBe(2);
+                    expect(consoleError.mock.calls[0][0]).toContain(
+                        `[React Intl] Missing message: "${id}" for locale: "${locale}"`
+                    );
+                    expect(consoleError.mock.calls[1][0]).toContain(
+                        `[React Intl] Cannot format message: "${id}", using message id as fallback.`
+                    );
+                }
+            );
         });
     });
 
@@ -972,7 +993,7 @@ describe('format API', () => {
             formatHTMLMessage = f.formatHTMLMessage.bind(null, config, state);
         });
 
-        it('formats HTML messages', () => {
+        test('formats HTML messages', () => {
             const {locale, messages} = config;
             const mf = new IntlMessageFormat(messages.with_html, locale);
             const values = {name: 'Eric'};
@@ -980,7 +1001,7 @@ describe('format API', () => {
             expect(formatHTMLMessage({id: 'with_html'}, values)).toBe(mf.format(values));
         });
 
-        it('html-escapes string values', () => {
+        test('html-escapes string values', () => {
             const {locale, messages} = config;
             const mf = new IntlMessageFormat(messages.with_html, locale);
             const values = {name: '<i>Eric</i>'};

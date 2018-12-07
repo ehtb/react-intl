@@ -24,35 +24,41 @@ describe('<FormattedMessage>', () => {
         consoleError.mockReset();
     });
 
-    it('has a `displayName`', () => {
+    test('has a `displayName`', () => {
         expect(typeof FormattedMessage.displayName).toBe('string');
     });
 
-    it('throws when <IntlProvider> is missing from ancestry and there is no defaultMessage', () => {
-        const FormattedMessage = mockContext(null);
-        expect(() => shallowDeep(<FormattedMessage />, 2)).toThrow(
-            '[React Intl] Could not find required `intl` object. <IntlProvider> needs to exist in the component ancestry.'
-        );
-    });
+    test(
+      'throws when <IntlProvider> is missing from ancestry and there is no defaultMessage',
+      () => {
+          const FormattedMessage = mockContext(null);
+          expect(() => shallowDeep(<FormattedMessage />, 2)).toThrow(
+              '[React Intl] Could not find required `intl` object. <IntlProvider> needs to exist in the component ancestry.'
+          );
+      }
+    );
 
-    it('should work if <IntlProvider> is missing from ancestry but there is defaultMessage', () => {
-        const FormattedMessage = mockContext(null);
+    test(
+      'should work if <IntlProvider> is missing from ancestry but there is defaultMessage',
+      () => {
+          const FormattedMessage = mockContext(null);
 
-        const rendered = shallowDeep(
-          <FormattedMessage
-            id="hello"
-            defaultMessage="Hello"
-          />,
-          2
-        );
+          const rendered = shallowDeep(
+            <FormattedMessage
+              id="hello"
+              defaultMessage="Hello"
+            />,
+            2
+          );
 
-        expect(rendered.type()).toBe('span');
-        expect(rendered.text()).toBe('Hello');
+          expect(rendered.type()).toBe('span');
+          expect(rendered.text()).toBe('Hello');
 
-        expect(consoleError.mock.calls.length).toBe(1);
-    });
+          expect(consoleError.mock.calls.length).toBe(1);
+      }
+    );
 
-    it('renders a formatted message in a <span>', () => {
+    test('renders a formatted message in a <span>', () => {
         const FormattedMessage = mockContext(intl);
         const descriptor = {
             id: 'hello',
@@ -67,7 +73,7 @@ describe('<FormattedMessage>', () => {
         expect(rendered.text()).toBe(intl.formatMessage(descriptor))
     });
 
-    it('should not cause a unique "key" prop warning', () => {
+    test('should not cause a unique "key" prop warning', () => {
         const FormattedMessage = mockContext(intl);
         const descriptor = {
             id: 'hello',
@@ -85,7 +91,7 @@ describe('<FormattedMessage>', () => {
         expect(consoleError.mock.calls.length).toBe(0);
     });
 
-    it('should not cause a prop warning when description is a string', () => {
+    test('should not cause a prop warning when description is a string', () => {
         const FormattedMessage = mockContext(intl);
         const descriptor = {
             id: 'hello',
@@ -103,7 +109,7 @@ describe('<FormattedMessage>', () => {
         expect(consoleError.mock.calls.length).toBe(0);
     });
 
-    it('should not cause a prop warning when description is an object', () => {
+    test('should not cause a prop warning when description is an object', () => {
         const FormattedMessage = mockContext(intl);
         const descriptor = {
             id: 'hello',
@@ -124,7 +130,7 @@ describe('<FormattedMessage>', () => {
         expect(consoleError.mock.calls.length).toBe(0);
     });
 
-    it('accepts `values` prop', () => {
+    test('accepts `values` prop', () => {
         const FormattedMessage = mockContext(intl);
         const descriptor = {
             id: 'hello',
@@ -143,7 +149,7 @@ describe('<FormattedMessage>', () => {
         );
     });
 
-    it('accepts string as `tagName` prop', () => {
+    test('accepts string as `tagName` prop', () => {
         const FormattedMessage = mockContext(intl);
         const descriptor = {
             id: 'hello',
@@ -162,7 +168,7 @@ describe('<FormattedMessage>', () => {
         expect(rendered.type()).toBe(tagName);
     });
 
-    it('accepts an react element as `tagName` prop', () => {
+    test('accepts an react element as `tagName` prop', () => {
         const FormattedMessage = mockContext(intl);
         const descriptor = {
             id: 'hello',
@@ -184,7 +190,7 @@ describe('<FormattedMessage>', () => {
         );
     });
 
-    it('supports function-as-child pattern', () => {
+    test('supports function-as-child pattern', () => {
         const FormattedMessage = mockContext(intl);
         const descriptor = {
             id: 'hello',
@@ -209,7 +215,7 @@ describe('<FormattedMessage>', () => {
         expect(rendered.text()).toBe('Jest');
     });
 
-    it('supports rich-text message formatting', () => {
+    test('supports rich-text message formatting', () => {
         const FormattedMessage = mockContext(intl);
         const rendered = shallowDeep(
           <FormattedMessage
@@ -227,35 +233,38 @@ describe('<FormattedMessage>', () => {
         expect(nameNode.text()).toBe('Jest');
     });
 
-    it('supports rich-text message formatting in function-as-child pattern', () => {
-        const FormattedMessage = mockContext(intl);
-        const rendered = shallowDeep(
-          <FormattedMessage
-              id="hello"
-              defaultMessage="Hello, {name}!"
-              values={{
-                  name: <b>Jest</b>,
-              }}
-          >
-              {(...formattedMessage) => (
-                  <strong>{formattedMessage}</strong>
-              )}
+    test(
+      'supports rich-text message formatting in function-as-child pattern',
+      () => {
+          const FormattedMessage = mockContext(intl);
+          const rendered = shallowDeep(
+            <FormattedMessage
+                id="hello"
+                defaultMessage="Hello, {name}!"
+                values={{
+                    name: <b>Jest</b>,
+                }}
+            >
+                {(...formattedMessage) => (
+                    <strong>{formattedMessage}</strong>
+                )}
 
-          </FormattedMessage>,
-          2
-        );
+            </FormattedMessage>,
+            2
+          );
 
-        const nameNode = rendered.childAt(1);
-        expect(nameNode.type()).toBe('b');
-        expect(nameNode.text()).toBe('Jest');
-    });
+          const nameNode = rendered.childAt(1);
+          expect(nameNode.type()).toBe('b');
+          expect(nameNode.text()).toBe('Jest');
+      }
+    );
 
-    it('should not re-render when props and context are the same', () => {
+    test('should not re-render when props and context are the same', () => {
         const FormattedMessage = mockContext(intl);
         const props = {
           id: 'hello',
           defaultMessage: 'Hello, World!'
-        }
+        };
 
         const spy = jest.fn().mockImplementation(() => null);
         const rendered = mount(
@@ -269,12 +278,12 @@ describe('<FormattedMessage>', () => {
         expect(spy.mock.calls.length).toBe(1);
     });
 
-    it('should re-render when props change', () => {
+    test('should re-render when props change', () => {
         const FormattedMessage = mockContext(intl);
         const props = {
           id: 'hello',
           defaultMessage: 'Hello, World!'
-        }
+        };
 
         const spy = jest.fn().mockImplementation(() => null);
         const rendered = mount(
@@ -290,7 +299,7 @@ describe('<FormattedMessage>', () => {
         expect(spy.mock.calls.length).toBe(2);
     });
 
-    it('should re-render when context changes', () => {
+    test('should re-render when context changes', () => {
         const changedIntl = generateIntlContext({
           locale: 'en-US',
           defaultLocale: 'en-US'
@@ -300,7 +309,7 @@ describe('<FormattedMessage>', () => {
         const props = {
           id: 'hello',
           defaultMessage: 'Hello, World!'
-        }
+        };
 
         const spy = jest.fn().mockImplementation(() => null);
         const withIntlContext = mount(
@@ -313,7 +322,7 @@ describe('<FormattedMessage>', () => {
         expect(spy.mock.calls.length).toBe(2);
     });
 
-    it('should re-render when `values` are different', () => {
+    test('should re-render when `values` are different', () => {
         const FormattedMessage = mockContext(intl);
         const descriptor = {
             id: 'hello',

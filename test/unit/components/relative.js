@@ -34,18 +34,18 @@ describe('<FormattedRelative>', () => {
         setState && setState.mockReset();
     });
 
-    it('has a `displayName`', () => {
+    test('has a `displayName`', () => {
         expect(typeof FormattedRelative.displayName).toBe('string');
     });
 
-    it('throws when <IntlProvider> is missing from ancestry', () => {
+    test('throws when <IntlProvider> is missing from ancestry', () => {
         const FormattedRelative = mockContext();
         expect(() => shallowDeep(<FormattedRelative />, 2)).toThrow(
             '[React Intl] Could not find required `intl` object. <IntlProvider> needs to exist in the component ancestry.'
         );
     });
 
-    it('requires a finite `value` prop', async () => {
+    test('requires a finite `value` prop', async () => {
         const FormattedRelative = mockContext(intl);
         setState = spySetState();
 
@@ -62,8 +62,9 @@ describe('<FormattedRelative>', () => {
           value: NaN
         });
 
-        expect(consoleError.mock.calls.length).toBe(1);
-        expect(consoleError.mock.calls[0].arguments[0]).toContain(
+        expect(consoleError.mock.calls.length).toBe(2);
+        // First error message is ours, the second is from React.
+        expect(consoleError.mock.calls[0][0]).toContain(
             '[React Intl] Error formatting relative time.\nRangeError'
         );
 
@@ -74,7 +75,7 @@ describe('<FormattedRelative>', () => {
         withIntlContext.unmount();
     });
 
-    it('renders a formatted relative time in a <span>', () => {
+    test('renders a formatted relative time in a <span>', () => {
         const FormattedRelative = mockContext(intl);
         const date = new Date();
 
@@ -89,7 +90,7 @@ describe('<FormattedRelative>', () => {
         );
     });
 
-    it('should not re-render when props and context are the same', () => {
+    test('should not re-render when props and context are the same', () => {
         const FormattedRelative = mockContext(intl);
 
         const spy = jest.fn().mockImplementation(() => null);
@@ -107,7 +108,7 @@ describe('<FormattedRelative>', () => {
         expect(spy.mock.calls.length).toBe(1);
     });
 
-    it('should re-render when props change', () => {
+    test('should re-render when props change', () => {
         const FormattedRelative = mockContext(intl);
 
         const spy = jest.fn().mockImplementation(() => null);
@@ -125,7 +126,7 @@ describe('<FormattedRelative>', () => {
         expect(spy.mock.calls.length).toBe(2);
     });
 
-    it('should re-render when context changes', () => {
+    test('should re-render when context changes', () => {
         const FormattedRelative = mockContext(intl);
 
         const spy = jest.fn().mockImplementation(() => null);
@@ -143,7 +144,7 @@ describe('<FormattedRelative>', () => {
         expect(spy.mock.calls.length).toBe(2);
     });
 
-    it('accepts valid IntlRelativeFormat options as props', () => {
+    test('accepts valid IntlRelativeFormat options as props', () => {
         const FormattedRelative = mockContext(intl);
         const date = intl.now() - 60 * 1000;
         const options = {units: 'second'};
@@ -158,7 +159,7 @@ describe('<FormattedRelative>', () => {
         );
     });
 
-    it('fallsback and warns on invalid IntlRelativeFormat options', () => {
+    test('fallsback and warns on invalid IntlRelativeFormat options', () => {
         const FormattedRelative = mockContext(intl);
         const date = new Date();
 
@@ -171,7 +172,7 @@ describe('<FormattedRelative>', () => {
         expect(consoleError.mock.calls.length).toBeGreaterThan(0);
     });
 
-    it('accepts `format` prop', () => {
+    test('accepts `format` prop', () => {
         intl = generateIntlContext({
             locale: 'en',
             formats: {
@@ -197,7 +198,7 @@ describe('<FormattedRelative>', () => {
         );
     });
 
-    it('accepts `initialNow` prop', () => {
+    test('accepts `initialNow` prop', () => {
         const FormattedRelative = mockContext(intl);
         const date = 0;
         const now = 1000;
@@ -214,7 +215,7 @@ describe('<FormattedRelative>', () => {
         );
     });
 
-    it('supports function-as-child pattern', () => {
+    test('supports function-as-child pattern', () => {
         const FormattedRelative = mockContext(intl);
         const date = new Date();
 
@@ -227,7 +228,7 @@ describe('<FormattedRelative>', () => {
         );
 
         expect(spy.mock.calls.length).toBe(1);
-        expect(spy.mock.calls[0].arguments).toEqual([
+        expect(spy.mock.calls[0]).toEqual([
           intl.formatRelative(date)
         ]);
 
@@ -235,7 +236,7 @@ describe('<FormattedRelative>', () => {
         expect(rendered.text()).toBe('Jest');
     });
 
-    it('updates automatically', (done) => {
+    test('updates automatically', (done) => {
         const FormattedRelative = mockContext(intl);
         const date = new Date();
         const now = intl.now();
@@ -251,7 +252,7 @@ describe('<FormattedRelative>', () => {
         setTimeout(() => {
             const textAfterUpdate = withIntlContext.dive().text();
 
-            expect(textAfterUpdate).toNotBe(text);
+            expect(textAfterUpdate).not.toBe(text);
             expect(textAfterUpdate).toBe(
                 intl.formatRelative(date, {now: intl.now()})
             );
@@ -260,7 +261,7 @@ describe('<FormattedRelative>', () => {
         }, 10);
     });
 
-    it('updates when the `value` prop changes', () => {
+    test('updates when the `value` prop changes', () => {
         const FormattedRelative = mockContext(intl);
         const now = intl.now();
 
@@ -283,31 +284,34 @@ describe('<FormattedRelative>', () => {
         ).toBe(textBefore);
     });
 
-    it('updates at maximum of `updateInterval` with a string `value`', (done) => {
-        const FormattedRelative = mockContext(intl);
+    test(
+      'updates at maximum of `updateInterval` with a string `value`',
+      (done) => {
+          const FormattedRelative = mockContext(intl);
 
-        // `toString()` rounds the date to the nearest second, this makes sure
-        // `date` and `now` are exactly 1000ms apart so the scheduler will wait
-        // 1000ms before the next interesting moment.
-        const now = 2000;
-        const date = new Date(now - 1000).toString();
+          // `toString()` rounds the date to the nearest second, this makes sure
+          // `date` and `now` are exactly 1000ms apart so the scheduler will wait
+          // 1000ms before the next interesting moment.
+          const now = 2000;
+          const date = new Date(now - 1000).toString();
 
-        jest.spyOn(intl, 'now').mockImplementation(() => now);
+          jest.spyOn(intl, 'now').mockImplementation(() => now);
 
-        shallowDeep(
-          <FormattedRelative value={date} updateInterval={1} />,
-          2
-        );
+          shallowDeep(
+            <FormattedRelative value={date} updateInterval={1} />,
+            2
+          );
 
-        setTimeout(() => {
-            // Make sure setTimeout wasn't called with `NaN`, which is like `0`.
-            expect(intl.now.calls.length).toBe(1);
+          setTimeout(() => {
+              // Make sure setTimeout wasn't called with `NaN`, which is like `0`.
+              expect(intl.now.mock.calls.length).toBe(1);
 
-            done();
-        }, 10);
-    });
+              done();
+          }, 10);
+      }
+    );
 
-    it('does not update when `updateInterval` prop is falsy', (done) => {
+    test('does not update when `updateInterval` prop is falsy', (done) => {
         const FormattedRelative = mockContext(intl);
         const date = new Date();
         const now = intl.now();
@@ -324,7 +328,7 @@ describe('<FormattedRelative>', () => {
             const textAfter = withIntlContext.text();
 
             expect(textAfter).toBe(textBefore);
-            expect(textAfter).toNotBe(
+            expect(textAfter).not.toBe(
                 intl.formatRelative(date, {now: intl.now()})
             );
 

@@ -166,7 +166,7 @@ class FormattedRelative extends Component {
     }
 
     // TODO add locale to time title
-    return <Text><time title={value.toLocaleString()} datetime={value}>{formattedRelative}</time></Text>;
+    return <Text><time title={value.toLocaleString()} dateTime={value}>{formattedRelative}</time></Text>;
   }
 }
 

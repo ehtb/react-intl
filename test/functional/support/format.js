@@ -18,7 +18,7 @@ export default function (ReactIntl) {
           </IntlProvider>
         );
 
-        it('formats dates', () => {
+        test('formats dates', () => {
             const date = new Date();
             const el = <FormattedDate id='test' value={date} month='numeric' />;
 
@@ -26,7 +26,7 @@ export default function (ReactIntl) {
             expect(rendered.text()).toBe(String(date.getMonth() + 1));
         });
 
-        it('formats times', () => {
+        test('formats times', () => {
             const date = new Date();
             const el   = <FormattedTime id='test' value={date} />;
 
@@ -41,7 +41,7 @@ export default function (ReactIntl) {
             );
         });
 
-        it('formats dates relative to "now"', () => {
+        test('formats dates relative to "now"', () => {
             const now = Date.now();
             const el  = <FormattedRelative id='test' value={now - 1000} initialNow={now} />;
 
@@ -49,21 +49,21 @@ export default function (ReactIntl) {
             expect(rendered.text()).toBe('1 second ago');
         });
 
-        it('formats numbers with thousands separators', () => {
+        test('formats numbers with thousands separators', () => {
             const el = <FormattedNumber id='test' value={1000} />;
 
             const rendered = renderWithIntlProvider(el).find('#test > span');
             expect(rendered.text()).toBe('1,000');
         });
 
-        it('formats numbers with decimal separators', () => {
+        test('formats numbers with decimal separators', () => {
             const el = <FormattedNumber id='test' value={0.1} minimumFractionDigits={2} />;
 
             const rendered = renderWithIntlProvider(el).find('#test > span');
             expect(rendered.text()).toBe('0.10');
         });
 
-        it('pluralizes labels in strings', () => {
+        test('pluralizes labels in strings', () => {
             const el = (
               <FormattedMessage
                 id='test'

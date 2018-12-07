@@ -23,15 +23,15 @@ describe('<FormattedHTMLMessage>', () => {
         consoleError.mockReset();
     });
 
-    it('has a `displayName`', () => {
+    test('has a `displayName`', () => {
         expect(typeof FormattedHTMLMessage.displayName).toBe('string');
     });
 
-    it('extends FormattedMessage', () => {
+    test('extends FormattedMessage', () => {
         expect(BaseFormattedHTMLMessage.prototype).toBeInstanceOf(BaseFormattedMessage);
     });
 
-    it('renders a formatted HTML message in a <span>', () => {
+    test('renders a formatted HTML message in a <span>', () => {
         const FormattedHTMLMessage = mockContext(intl);
         const descriptor = {
             id: 'hello',
@@ -51,7 +51,7 @@ describe('<FormattedHTMLMessage>', () => {
         });
     });
 
-    it('accepts `values` prop', () => {
+    test('accepts `values` prop', () => {
         const FormattedHTMLMessage = mockContext(intl);
         const descriptor = {
             id: 'hello',
@@ -68,7 +68,7 @@ describe('<FormattedHTMLMessage>', () => {
           .toBe(intl.formatHTMLMessage(descriptor, values));
     });
 
-    it('should HTML-escape `values`', () => {
+    test('should HTML-escape `values`', () => {
         const FormattedHTMLMessage = mockContext(intl);
         const descriptor = {
             id: 'hello',
@@ -86,7 +86,7 @@ describe('<FormattedHTMLMessage>', () => {
         );
     });
 
-    it('accepts `tagName` prop', () => {
+    test('accepts `tagName` prop', () => {
         const FormattedHTMLMessage = mockContext(intl);
         const descriptor = {
             id: 'hello',
@@ -102,7 +102,7 @@ describe('<FormattedHTMLMessage>', () => {
         expect(rendered.type()).toEqual(tagName);
     });
 
-    it('supports function-as-child pattern', () => {
+    test('supports function-as-child pattern', () => {
         const FormattedHTMLMessage = mockContext(intl);
         const descriptor = {
             id: 'hello',
@@ -126,7 +126,7 @@ describe('<FormattedHTMLMessage>', () => {
         expect(rendered.text()).toBe('Jest');
     });
 
-    it('does not support rich-text message formatting', () => {
+    test('does not support rich-text message formatting', () => {
         const FormattedHTMLMessage = mockContext(intl);
         const rendered = shallowDeep(
           <FormattedHTMLMessage
