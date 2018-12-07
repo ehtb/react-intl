@@ -92,7 +92,7 @@ describe('<FormattedRelative>', () => {
     it('should not re-render when props and context are the same', () => {
         const FormattedRelative = mockContext(intl);
 
-        const spy = jest.fn().andReturn(null);
+        const spy = jest.fn().mockImplementation(() => null);
         const withIntlContext = mount(
           <FormattedRelative value={Date.now()}>
             { spy }
@@ -110,7 +110,7 @@ describe('<FormattedRelative>', () => {
     it('should re-render when props change', () => {
         const FormattedRelative = mockContext(intl);
 
-        const spy = jest.fn().andReturn(null);
+        const spy = jest.fn().mockImplementation(() => null);
         const withIntlContext = mount(
           <FormattedRelative value={Date.now()}>
             { spy }
@@ -128,7 +128,7 @@ describe('<FormattedRelative>', () => {
     it('should re-render when context changes', () => {
         const FormattedRelative = mockContext(intl);
 
-        const spy = jest.fn().andReturn(null);
+        const spy = jest.fn().mockImplementation(() => null);
         const withIntlContext = mount(
           <FormattedRelative value={Date.now()}>
             { spy }
@@ -218,7 +218,7 @@ describe('<FormattedRelative>', () => {
         const FormattedRelative = mockContext(intl);
         const date = new Date();
 
-        const spy = jest.fn().andReturn(<b>Jest</b>);
+        const spy = jest.fn().mockImplementation(() => <b>Jest</b>);
         const rendered = shallowDeep(
           <FormattedRelative value={date}>
             { spy }

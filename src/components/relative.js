@@ -166,10 +166,10 @@ class FormattedRelative extends Component {
     }
 
     // TODO add locale to time title
-    return <time title={value.toLocaleString()} datetime={value}><Text>{formattedRelative}</Text></time>;
+    return <Text><time title={value.toLocaleString()} datetime={value}>{formattedRelative}</time></Text>;
   }
 }
 
-export const BaseFormattedRelative = FormattedRelative
+export const BaseFormattedRelative = FormattedRelative;
 
-export default withIntl(FormattedRelative)
+export default withIntl(FormattedRelative);

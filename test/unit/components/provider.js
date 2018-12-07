@@ -51,7 +51,7 @@ describe('<IntlProvider>', () => {
 
     beforeEach(() => {
         consoleError       = jest.spyOn(console, 'error');
-        dateNow            = jest.spyOn(Date, 'now').andReturn(now);
+        dateNow            = jest.spyOn(Date, 'now').mockImplementation(() => now);
     });
 
     afterEach(() => {
@@ -392,7 +392,7 @@ describe('<IntlProvider>', () => {
         );
 
         IntlProvider = mockContext(parentContext);
-        const Child = jest.fn().andReturn(null);
+        const Child = jest.fn().mockImplementation(() => null);
 
         const intlProvider = mount(
             <IntlProvider locale="en">
@@ -421,7 +421,7 @@ describe('<IntlProvider>', () => {
         );
 
         IntlProvider = mockContext(initialParentContext);
-        const Child = jest.fn().andReturn(null);
+        const Child = jest.fn().mockImplementation(() => null);
 
         const el = (
             <IntlProvider>

@@ -8,6 +8,9 @@
 * Drop support for React v0.14 & v15
 * Drop support for Node.js v6
 
+### Fix
+* [Fix curly braces not escaped in production](https://github.com/yahoo/react-intl/pull/1214) by @tranvansang
+
 ### New
 * [update `FormattedMessage` to accept an element as `tagName` prop](https://github.com/yahoo/react-intl/pull/1118) by @iDuuck
 * [Support Short Relative Formats](https://github.com/yahoo/react-intl/pull/1145) by @papasmile
